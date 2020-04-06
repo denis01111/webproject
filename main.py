@@ -1,18 +1,16 @@
 from data import db_session
-from data import db_session
+from data import db_session, users
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask import Flask, request, render_template, redirect
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-db_session.global_init("db/users.sqlite")
 
 
 def main():
@@ -29,7 +27,7 @@ class LoginForm(FlaskForm):
 @login_manager.user_loader
 def load_user(user_id):
     session = db_session.create_session()
-    return session.query(User).get(user_id)
+    return session.query(users.User).get(user_id)
 
 
 @app.route('/')
@@ -42,7 +40,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session = db_session.create_session()
-        user = session.query(User, 'data\db\users.py').filter(User.email == form.email.data).first()
+        user = session.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
