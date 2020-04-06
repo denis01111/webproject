@@ -34,7 +34,6 @@ def load_user(user_id):
 def a():
     return 'Миссия Колонизация Марса'
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
