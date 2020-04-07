@@ -1,6 +1,8 @@
 import datetime
 import sqlalchemy
-from .db_session import SqlAlchemyBase
+import sqlalchemy.ext.declarative as dec
+
+SqlAlchemyBase = dec.declarative_base()
 
 
 class User(SqlAlchemyBase):
