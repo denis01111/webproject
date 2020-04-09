@@ -64,13 +64,18 @@
     background-color: #3e8e41;
 }
 </style>
+    {% if current_user.is_authenticated %}
+    <a class="navbar-brand">{{ current_user.name }}</a>
+    <a class="btn btn-success" href="/exit">Выйти</a>
+{% else %}
+    <div class="cities">
+        <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
+        <a class="btn btn-success" href="/login">Войти</a>
+    </div>
+{% endif %}
 </head>
 <body>
 <a class="btn-ens-action btn-ens-style" data-rel="4a9f99dc105">Купить</a>
-<div class="cities">
-    <a href="/login">Вход</a>
-    <a href="/register">Регистрация</a>
-</div>
 <div class="dropdown">
   <button class="dropbtn">Категории</button>
   <div class="dropdown-content">

@@ -28,6 +28,12 @@ def delete():
         return 'There was a problem deleting that task'
 
 
+@app.route('/exit')
+def logout():
+    logout_user()
+    return redirect('/')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -42,7 +48,7 @@ def login():
 
 
 @app.route('/register', methods=['GET', 'POST'])
-def reqister():
+def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
@@ -57,12 +63,32 @@ def reqister():
         user = users.User(
             name=form.name.data,
             email=form.email.data,
+            password=form.password.data
         )
         user.set_password(form.password.data)
         session.add(user)
         session.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route("/cookie_test")
+def cookie_test():
+    visits_count = int(request.cookies.get("visits_count", 0))
+    if visits_count:
+        res = make_response(f'Вы пришли на эту страницу {visits_count + 1} раз')
+        res.set_cookie("visits_count", str(visits_count + 1), max_age=60 * 60 * 24 * 365 * 2)
+    else:
+        res = make_response('Вы пришли на эту страницу в первый раз за 2 года')
+        res.set_cookie("visits_count", "1", max_age=60 * 60 * 24 * 365 * 2)
+    return res
+
+
+@app.route('/session_test')
+def session_test():
+    session.permanent = True
+    session['visits_count'] = session.get('visits_count', 0) + 1
+    return f"Вы зашли на страницу {session['visits_count']} раз!"
 
 
 def main():
