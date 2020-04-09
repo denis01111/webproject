@@ -57,6 +57,7 @@ def reqister():
         user = users.User(
             name=form.name.data,
             email=form.email.data,
+            password=form.password.data
         )
         user.set_password(form.password.data)
         session.add(user)
