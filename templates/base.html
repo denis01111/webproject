@@ -7,6 +7,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<!--Готовый скрипт корзины-->
+<script defer src="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.js"></script>
+
+<!--Стили элементов для корзины-->
+<link href="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.css" rel="stylesheet">
 <title>{{ title }}</title>
 {% block head %}{% endblock %}
     <style>
@@ -59,6 +66,7 @@
 </style>
 </head>
 <body>
+<a class="btn-ens-action btn-ens-style" data-rel="4a9f99dc105">Купить</a>
 <div class="cities">
     <a href="/login">Вход</a>
     <a href="/register">Регистрация</a>
