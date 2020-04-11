@@ -3,10 +3,12 @@ from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
-from data import db_session, users
+from data import db_session, users, product
 from loginform import LoginForm
 from register import RegisterForm
-
+from add_product import AddProductForm
+import zipfile
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -32,6 +34,38 @@ def delete():
 def logout():
     logout_user()
     return redirect('/')
+
+
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    form = AddProductForm
+    if form.validate_on_submit():
+        session = db_session.create_session()
+        prod = product.Product(
+            name=form.name.data,
+            email=form.cost.data,
+        )
+        prod.size = 'static\img\product_size_{}.zip'.format(prod.id)
+        prod.img = 'static\img\product_img_{}.zip'.format(prod.id)
+        zip_img = zipfile.ZipFile(r'static\img\product_img_{}.zip'.format(prod.id), 'w')
+        f = request.files['img_product']
+        if zipfile.is_zipfile(f):
+            with zipfile.ZipFile(f, 'r') as zip_img_forma:
+                for root, dirs, files in os.walk(zip_img_forma):
+                    for file in files:
+                        zip_img.write(os.path.join(root, file))
+        zip_size = zipfile.ZipFile(r'static\img\product_size_{}.zip'.format(prod.id), 'w')
+        f = request.files['size_product']
+        if zipfile.is_zipfile(f):
+            with zipfile.ZipFile(f, 'r') as zip_size_forma:
+                for root, dirs, files in os.walk(zip_size_forma):
+                    for file in files:
+                        zip_size.write(os.path.join(root, file))
+        prod.set_password(form.password.data)
+        session.add(prod)
+        session.commit()
+        return redirect('/add_product')
+    return render_template('add_product.html', title='Регистрация', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
