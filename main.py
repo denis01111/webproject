@@ -38,7 +38,7 @@ def logout():
 
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
-    form = AddProductForm
+    form = AddProductForm()
     if form.validate_on_submit():
         session = db_session.create_session()
         prod = product.Product(
