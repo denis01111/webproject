@@ -1,20 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Добавление товара</h1>
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <input class="form-control" id="name" name="name" required="" type="text" value="">
-    <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
-        <input type="file" class="form-control-file" id="size_product" name="file">
+{% if current_user.name == 'admin' %}
+    <h1>Добавление товара</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <input class="form-control" id="name" name="name" required="" type="text" value="">
+        <input class="form-control" id="size" name="size" required="" type="text" value="">
+        <div class="form-group">
+            <label for="size_product">Приложите ZIP арзив с фотографиями в формате JPEG</label>
+            <input type="file" class="form-control-file" id="size_product" name="file">
+        </div>
+        <div class="form-group">
+            <label for="img_product">Приложите ZIP арзив с фотографиями в формате JPEG</label>
+            <input type="file" class="form-control-file" id="img_product" name="file">
+        </div>
+             <div class="form-group">
+        <label for="product_category">Выбор категории</label>
+        <select class="form-control" id="product_category" name="class">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
     </div>
-    <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
-        <input type="file" class="form-control-file" id="img_product" name="file">
-    </div>
-    <input class="form-control" id="size" name="size" required="" type="text" value="">
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    <div>{{ message }}</div>
-</form>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        {{ message }}
+    </form>
+{% else %}
+    <h1>Что бы добавить товар нужно быть админом</h1>
+{% endif %}
 {% endblock %}

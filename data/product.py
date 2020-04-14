@@ -15,3 +15,4 @@ class Product(SqlAlchemyBase, UserMixin, SerializerMixin):
     size = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     img_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     cost = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    product_category = sqlalchemy.Column(sqlalchemy.String, nullable=True)

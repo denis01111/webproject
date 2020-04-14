@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<!--Готовый скрипт корзины-->
-<script defer src="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.js"></script>
+    <!--Готовый скрипт корзины-->
+    <script defer src="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.js"></script>
 
-<!--Стили элементов для корзины-->
-<link href="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.css" rel="stylesheet">
-<title>{{ title }}</title>
-{% block head %}{% endblock %}
+    <!--Стили элементов для корзины-->
+    <link href="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.css" rel="stylesheet">
+    <title>{{ title }}</title>
+    {% block head %}{% endblock %}
     <style>
 /* Стиль Выпадающей Кнопки */
 .dropbtn {
@@ -63,39 +64,44 @@
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
-</style>
+
+
+    </style>
     {% if current_user.is_authenticated %}
-    <a class="navbar-brand">{{ current_user.name }}</a>
-    <a class="btn btn-success" href="/exit">Выйти</a>
-{% else %}
-    <div class="cities">
-        <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
-        <a class="btn btn-success" href="/login">Войти</a>
-    </div>
-{% endif %}
+        <a class="navbar-brand">{{ current_user.name }}</a>
+        <a class="btn btn-success" href="/exit">Выйти</a>
+        {% if current_user.name == 'admin' %}
+            <a class="btn btn-success" href="/add_product">Добавить товар</a>
+        {% endif %}
+    {% else %}
+        <div class="cities">
+            <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
+            <a class="btn btn-success" href="/login">Войти</a>
+        </div>
+    {% endif %}
 </head>
 <body>
 <a class="btn-ens-action btn-ens-style" data-rel="4a9f99dc105">Купить</a>
 <div class="dropdown">
-  <button class="dropbtn">Категории</button>
-  <div class="dropdown-content">
-    <a href="#">Ссылка 1</a>
-    <a href="#">Ссылка 2</a>
-    <a href="#">Ссылка 3</a>
-    <a href="#">Ссылка 3</a>
+    <button class="dropbtn">Категории</button>
+    <div class="dropdown-content">
+        <a href="#">Ссылка 1</a>
+        <a href="#">Ссылка 2</a>
         <a href="#">Ссылка 3</a>
-          <a href="#">Ссылка 3</a>
-          <a href="#">Ссылка 3</a>
-          <a href="#">Ссылка 3</a>
-          <a href="#">Ссылка 3</a>
-  </div>
+        <a href="#">Ссылка 3</a>
+        <a href="#">Ссылка 3</a>
+        <a href="#">Ссылка 3</a>
+        <a href="#">Ссылка 3</a>
+        <a href="#">Ссылка 3</a>
+        <a href="#">Ссылка 3</a>
+    </div>
 </div>
 <footer role="contentinfo" style="background-color:SlateBlue;">
-  Низ страницы, там будет партнерство и политика конфидициальности!
+    Низ страницы, там будет партнерство и политика конфидициальности!
 </footer>
 <h1 align="center">Главное меню</h1>
 <div align="center">
-{% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 </body>
 </html>

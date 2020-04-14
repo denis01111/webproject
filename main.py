@@ -39,51 +39,47 @@ def logout():
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     form = AddProductForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
+        print(1)
         session = db_session.create_session()
         prod = product.Product(
             name=form.name.data,
-            email=form.cost.data,
+            cost=form.cost.data,
+            product_category=form.product_category.data
         )
         prod.size = 'static\img\product_size_{}.zip'.format(prod.id)
         prod.img = 'static\img\product_img_{}.zip'.format(prod.id)
         zip_img = zipfile.ZipFile(r'static\img\product_img_{}.zip'.format(prod.id), 'w')
         f = request.files['img_product']
+        print(f)
         if zipfile.is_zipfile(f):
             with zipfile.ZipFile(f, 'r') as zip_img_forma:
                 for root, dirs, files in os.walk(zip_img_forma):
                     for file in files:
                         zip_img.write(os.path.join(root, file))
+                zip_img_forma.close()
         zip_size = zipfile.ZipFile(r'static\img\product_size_{}.zip'.format(prod.id), 'w')
         f = request.files['size_product']
         if zipfile.is_zipfile(f):
-            with zipfile.ZipFile(f, 'r') as zip_size_forma:
+            with zipfile.ZipFile(f, 'r') as zip_size_forma: 
                 for root, dirs, files in os.walk(zip_size_forma):
                     for file in files:
                         zip_size.write(os.path.join(root, file))
+                zip_size_forma.close()
+        zip_img.close()
+        zip_size.close()
         prod.set_password(form.password.data)
         session.add(prod)
         session.commit()
-        return redirect('/add_product')
+        return redirect('/')
     return render_template('add_product.html', title='Регистрация', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        sessions = db_session.create_session()
-        user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
-        if user and user.password == form.password.data:
-            login_user(user, remember=form.remember_me.data)
-            return redirect('/')
-        return render_template('login.html', message='Неправильный логин или пароль', form=form)
-    return render_template('login.html', title='Авторизация', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    print(form.errors)
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
@@ -104,6 +100,19 @@ def register():
         session.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
+        if user and user.password == form.password.data:
+            login_user(user, remember=form.remember_me.data)
+            return redirect('/')
+        return render_template('login.html', message='Неправильный логин или пароль', form=form)
+    return render_template('login.html', title='Авторизация', form=form)
 
 
 @app.route("/cookie_test")
