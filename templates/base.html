@@ -3,103 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
-    <!--Готовый скрипт корзины-->
-    <script defer src="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.js"></script>
-
-    <!--Стили элементов для корзины-->
-    <link href="https://lk.easynetshop.ru/frontend/v5/ens-56a7a48b.css" rel="stylesheet">
     <title>{{ title }}</title>
     {% block head %}{% endblock %}
-    <style>
-/* Стиль Выпадающей Кнопки */
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-/* контейнер <div> - необходим для размещения выпадающего содержимого */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Выпадающей контент (по умолчанию скрыт) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Ссылки внутри выпадающего списка */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Изменить цвет выпадающих ссылок при наведении */
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-/* Показать выпадающее меню при наведении */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Изменить цвет фона выпадающего кнопка при отображении выпадающего списка */
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-
-    </style>
     {% if current_user.is_authenticated %}
-        <a class="navbar-brand">{{ current_user.name }}</a>
-        <a class="btn btn-success" href="/exit">Выйти</a>
+        <div align="right">
+            <a class="navbar-brand">{{ current_user.name }}</a>
+            <a class="btn btn-success" href="/exit">Выйти</a>
+        </div>
         {% if current_user.name == 'admin' %}
-            <a class="btn btn-success" href="/add_product">Добавить товар</a>
+            <div align="right">
+                <a class="btn btn-success" href="/add_product">Добавить товар</a>
+            </div>
         {% endif %}
     {% else %}
-        <div class="cities">
-            <a class="btn btn-primary" href="/register">Зарегистрироваться</a>
-            <a class="btn btn-success" href="/login">Войти</a>
+        <div class="choice" align="right">
+            <a class="btn btn-primary" href="/register">Sign up</a>
+            <a class="btn btn-success" href="/login">Log in</a>
         </div>
     {% endif %}
 </head>
+<style>
+body {
+  background-image: url('static/img/font.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+a.clothes {
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 10px 30px;
+  margin: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fe6637;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  color: #fe6637;
+  transition: .2s ease-in-out;
+}
+a.clothes:before {
+  content: "";
+  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: -8px;
+  left: -75px;
+  transform: skewX(-45deg);
+}
+a.clothes:hover {
+  background: #fe6637;
+  color: #fff;
+}
+a.clothes:hover:before {
+  left: 150px;
+  transition: .5s ease-in-out;
+}
+</style>
 <body>
-<a class="btn-ens-action btn-ens-style" data-rel="4a9f99dc105">Купить</a>
-<div class="dropdown">
-    <button class="dropbtn">Категории</button>
-    <div class="dropdown-content">
-        <a href="#">Ссылка 1</a>
-        <a href="#">Ссылка 2</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-        <a href="#">Ссылка 3</a>
-    </div>
-</div>
-<footer role="contentinfo" style="background-color:SlateBlue;">
-    Низ страницы, там будет партнерство и политика конфидициальности!
-</footer>
-<h1 align="center">Главное меню</h1>
+<a href="/clothes" class="clothes">Одежда</a><br>
+<a href="/shoes" class="clothes">Обувь</a><br>
+<a href="/electronics" class="clothes">Электроника</a><br>
+<a href="/health" class="clothes">Здоровье</a><br>
+<a href="/home" class="clothes">Дом</a><br>
+<a href="/books" class="clothes">Книги</a><br>
+<a href="/jewelry" class="clothes">Ювелирные изделия</a><br>
+<a href="/girls" class="clothes">Женщинам</a><br>
+<a href="/sport" class="clothes">Спорт</a><br>
+<a href="/car" class="clothes">Автотовары</a><br>
 <div align="center">
     {% block content %}{% endblock %}
 </div>

@@ -9,6 +9,8 @@ from register import RegisterForm
 from add_product import AddProductForm
 import zipfile
 import os
+from product import products
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -20,6 +22,66 @@ login_manager.init_app(app)
 def load_user(user_id):
     sessions = db_session.create_session()
     return sessions.query(users.User).get(user_id)
+
+
+@app.route('/clothes', methods=['GET', 'POST'])
+def clothes():
+    return render_template('clothes.html', title='Одежда',
+                           products=products['Одежда'])
+
+
+@app.route('/shoes')
+def shoes():
+    return render_template('shoes.html', title='Обувь',
+                           products=products['Обувь'])
+
+
+@app.route('/electronics', methods=['GET', 'POST'])
+def electronics():
+    return render_template('electronics.html', title='Электроника',
+                           products=products['Электроника'])
+
+
+@app.route('/health', methods=['GET', 'POST'])
+def health():
+    return render_template('health.html', title='Здоровье',
+                           products=products['Здоровье'])
+
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html', title='Дом',
+                           products=products['Дом'])
+
+
+@app.route('/books', methods=['GET', 'POST'])
+def books():
+    return render_template('books.html', title='Книги',
+                           products=products['Книги'])
+
+
+@app.route('/jewelry', methods=['GET', 'POST'])
+def jewelry():
+    return render_template('jewelry.html', title='Ювелирные изделия',
+                           products=products['Ювелирные изделия'])
+
+
+@app.route('/girls', methods=['GET', 'POST'])
+def girls():
+    return render_template('girls.html', title='Женщинам',
+                           products=products['Женщинам'])
+
+
+@app.route('/sport', methods=['GET', 'POST'])
+def sport():
+    return render_template('sport.html', title='Спорт',
+                           products=products['Спорт'])
+
+
+@app.route('/car', methods=['GET', 'POST'])
+def car():
+    return render_template('car.html', title='Автотовары',
+                           products=products['Автотовары'])
 
 
 @app.route('/')
