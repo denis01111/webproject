@@ -12,7 +12,7 @@
     {% block head %}{% endblock %}
     {% if current_user.is_authenticated %}
         <div align="right">
-            <a class="navbar-brand">{{ current_user.name }}</a>
+            <a class="name">{{ current_user.name }}</a>
             <a class="btn btn-success" href="/exit">Выйти</a>
         </div>
         {% if current_user.name == 'admin' %}
@@ -21,17 +21,81 @@
             </div>
         {% endif %}
     {% else %}
-        <div class="choice" align="right">
+    <div class="topnav" align="right">
             <a class="btn btn-primary" href="/register">Sign up</a>
             <a class="btn btn-success" href="/login">Log in</a>
-        </div>
+    </div>
     {% endif %}
 </head>
 <style>
 body {
-  background-image: url('static/img/font.jpg');
+  background-image: url('static/img/fon.jpg');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+}
+.name{
+color: blue;
+}
+#sidebar{
+	background:#151718;
+	width:200px;
+	height:100%;
+	display:block;
+	position:absolute;
+	left:-200px;
+	top:0px;
+	transition:left 0.3s linear;
+}
+
+#sidebar.visible{
+	left:0px;
+	transition:left 0.3s linear;
+}
+
+ul{
+	margin:0px;
+	padding:0px;
+}
+
+ul li{
+	list-style:none;
+}
+
+ul li a{
+	background:#1C1E1F;
+	color:#ccc;
+	border-bottom:1px solid #111;
+	display:block;
+	width:180px;
+	padding:10px;
+	text-decoration: none;
+}
+
+#sidebar-btn{
+	display:inline-block;
+	vertical-align: middle;
+	width:20px;
+	height:15px;
+	cursor:pointer;
+	margin:20px;
+	position:absolute;
+	top:0px;
+	right:-60px;
+}
+
+#sidebar-btn span{
+	height:1px;
+	background:#111;
+	margin-bottom:5px;
+	display:block;
+}
+
+#sidebar-btn span:nth-child(2){
+	width:75%;
+}
+
+#sidebar-btn span:nth-child(3){
+	width:50%;
 }
 a.clothes {
   text-decoration: none;
@@ -65,18 +129,59 @@ a.clothes:hover:before {
   left: 150px;
   transition: .5s ease-in-out;
 }
+
+.topnav {
+  align="right"
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
 </style>
 <body>
-<a href="/clothes" class="clothes">Одежда</a><br>
-<a href="/shoes" class="clothes">Обувь</a><br>
-<a href="/electronics" class="clothes">Электроника</a><br>
-<a href="/health" class="clothes">Здоровье</a><br>
-<a href="/home" class="clothes">Дом</a><br>
-<a href="/books" class="clothes">Книги</a><br>
-<a href="/jewelry" class="clothes">Ювелирные изделия</a><br>
-<a href="/girls" class="clothes">Женщинам</a><br>
-<a href="/sport" class="clothes">Спорт</a><br>
-<a href="/car" class="clothes">Автотовары</a><br>
+<div id="sidebar">
+		<ul>
+			<li><a href="/clothes" class="clothes">Одежда</a></li>
+			<li><a href="/electronics" class="clothes">Электроника</a></li>
+			<li><a href="/home" class="clothes">Дом</a></li>
+			<li><a href="/books" class="clothes">Книги</a></li>
+			<li><a href="/jewelry" class="clothes">Ювелирные изделия</a></li>
+            <li><a href="/girls" class="clothes">Женщинам</a></li>
+            <li><a href="/sport" class="clothes">Спорт</a></li>
+            <li><a href="/car" class="clothes">Автотовары</a></li>
+		</ul>
+		<div id="sidebar-btn">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+
+	$(document).ready(function(){
+		$('#sidebar-btn').click(function(){
+			$('#sidebar').toggleClass('visible');
+		});
+	});
+
+	</script>
 <div align="center">
     {% block content %}{% endblock %}
 </div>
