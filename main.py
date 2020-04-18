@@ -101,6 +101,7 @@ def logout():
 def add_product():
     form = AddProductForm()
     if form.validate_on_submit():
+        print(form.img)
         session = db_session.create_session()
         add_product = product.Product()
         add_product.name = form.name.data
