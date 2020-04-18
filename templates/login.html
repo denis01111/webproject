@@ -1,13 +1,41 @@
-{% extends "base.html" %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.log{
+    margin: -60% 10% 0 0;
+ }
+.photo{
+    width: 350px; /* Ширина области */
+    height:550px; /* Высота области */
+    margin: 0; /* Обнуляем отступы */
+    overflow: hidden; /* Прячем всё за пределами */
+    margin: 0% 60% 0 0;
+    }
+.login{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #f2f2f2;
+}
+</style>
 
 {% block content %}
-    <h1>Авторизация</h1>
+<title>Авторизация</title>
+<div class="login">
+    <img class='photo' src='static/img/login.jpg'>
+    <div class="log">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
-        <p>
+<p>
             {{ form.email.label }}<br>
-            {{ form.email(class="form-control", type="email") }}<br>
+            {{ form.email(class="form-control", type="email", placeholder="Email") }}<br>
             {% for error in form.email.errors %}
                 <div class="alert alert-danger" role="alert">
                         {{ error }}
@@ -16,7 +44,7 @@
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(class="form-control", type="password") }}<br>
+            {{ form.password(class="form-control", type="password", placeholder="Password") }}<br>
             {% for error in form.password.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
@@ -24,7 +52,9 @@
             {% endfor %}
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p>{{ form.submit(type="submit", class="btn btn-success") }}</p>
         <div>{{ message }}</div>
     </form>
+        </div>
+    </div>
 {% endblock %}

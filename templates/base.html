@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <title>{{ title }}</title>
     {% block head %}{% endblock %}
@@ -21,9 +20,9 @@
             </div>
         {% endif %}
     {% else %}
-    <div class="topnav" align="right">
+    <div class="menu" align="right">
             <a class="btn btn-primary" href="/register">Sign up</a>
-            <a class="btn btn-success" href="/login">Log in</a>
+            <a class="btn btn-success" href="/login">Sign in</a>
     </div>
     {% endif %}
 </head>
@@ -51,7 +50,11 @@ color: blue;
 	left:0px;
 	transition:left 0.3s linear;
 }
-
+.menu{
+    border-radius: 20px;
+	width:1280px;
+	padding:40px;
+}
 ul{
 	margin:0px;
 	padding:0px;
@@ -97,74 +100,33 @@ ul li a{
 #sidebar-btn span:nth-child(3){
 	width:50%;
 }
-a.clothes {
-  text-decoration: none;
-  outline: none;
-  display: inline-block;
-  padding: 10px 30px;
-  margin: 10px 20px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #fe6637;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  color: #fe6637;
-  transition: .2s ease-in-out;
-}
-a.clothes:before {
-  content: "";
-  background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
-  height: 50px;
-  width: 50px;
-  position: absolute;
-  top: -8px;
-  left: -75px;
-  transform: skewX(-45deg);
-}
-a.clothes:hover {
-  background: #fe6637;
-  color: #fff;
-}
-a.clothes:hover:before {
-  left: 150px;
-  transition: .5s ease-in-out;
-}
-
-.topnav {
-  align="right"
-  overflow: hidden;
-  background-color: #333;
-}
-
-.topnav a {
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #4CAF50;
-  color: white;
+a.boton1{
+  border-radius: 5px;
+  background:#eee;
+  color:#088;
+  text-decoration:none;
+  display:block;
+  width:100px;
+  text-align:center;
+  margin:20px auto;
+  padding:10px 10px;
+  transition:all 0.3s;
+  }
+ a.boton1:hover{
+  box-shadow:0px -5px 0 #088 inset;
 }
 </style>
 <body>
 <div id="sidebar">
 		<ul>
-			<li><a href="/clothes" class="clothes">Одежда</a></li>
-			<li><a href="/electronics" class="clothes">Электроника</a></li>
-			<li><a href="/home" class="clothes">Дом</a></li>
-			<li><a href="/books" class="clothes">Книги</a></li>
-			<li><a href="/jewelry" class="clothes">Ювелирные изделия</a></li>
-            <li><a href="/girls" class="clothes">Женщинам</a></li>
-            <li><a href="/sport" class="clothes">Спорт</a></li>
-            <li><a href="/car" class="clothes">Автотовары</a></li>
+			<li><a href="/clothes" class="boton1">Одежда</a></li>
+			<li><a href="/electronics" class="boton1">Электроника</a></li>
+			<li><a href="/home" class="boton1">Дом</a></li>
+			<li><a href="/books" class="boton1">Книги</a></li>
+			<li><a href="/jewelry" class="boton1">Ювелирные изделия</a></li>
+            <li><a href="/girls" class="boton1">Женщинам</a></li>
+            <li><a href="/sport" class="boton1">Спорт</a></li>
+            <li><a href="/car" class="boton1">Автотовары</a></li>
 		</ul>
 		<div id="sidebar-btn">
 			<span></span>
@@ -174,13 +136,11 @@ a.clothes:hover:before {
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
-
 	$(document).ready(function(){
 		$('#sidebar-btn').click(function(){
 			$('#sidebar').toggleClass('visible');
 		});
 	});
-
 	</script>
 <div align="center">
     {% block content %}{% endblock %}
