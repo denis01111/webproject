@@ -9,10 +9,10 @@
         {{ form.cost.label }}<br>
         {{ form.cost(class="form-control") }}<br>
         {% for error in form.cost.errors %}
-            <p class="alert alert-danger" role="alert">
-             {{ error }}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
             </p>
-        { % endfor %}
+            {% endfor %}
     </p>
     <p>
         {{ form.name.label }}<br>
@@ -23,24 +23,6 @@
             </p>
             {% endfor %}
     </p>
-    <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
-        <input type="file" class="form-control-file" id="img_product" name="file">
-    </div>
-    <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
-        <input type="file" class="form-control-file" id="size" name="file">
-    </div>
-        <div class="form-group">
-        <label for="classSelect">Какое у вас образование?</label>
-        <select class="form-control" id="product_category" name="class">
-            <option>Начальное</option>
-            <option>основное</option>
-            <option>среднее</option>
-            <option>Среднее профессиональное</option>
-            <option>Высшеее</option>
-        </select>
-    </div>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>
