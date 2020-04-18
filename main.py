@@ -11,7 +11,6 @@ import zipfile
 import os
 from product import products
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
@@ -101,17 +100,14 @@ def logout():
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     form = AddProductForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         session = db_session.create_session()
-        add_product = AddProductForm()
+        add_product = product.Product()
         add_product.name = form.name.data
         add_product.cost = form.cost.data
-        add_product.img_product = '123'
-        add_product.size = '123'
-        add_product.product_category = '123'
-        current_user.news.append(add_product)
-        session.merge(current_user)
+        with open(form.img.data, 'r+') as f:
+            f.write('static\img\{}'.format(form.id))
+        session.add(add_product)
         session.commit()
         return redirect('/')
     return render_template('add_product.html', title='Добавление новости',

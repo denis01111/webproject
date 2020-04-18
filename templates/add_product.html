@@ -2,44 +2,34 @@
 
 {% block content %}
 <h1>Добавление новости</h1>
-<form action="" method="post">
+<form action="" method="post", enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
     <p>
         {{ form.cost.label }}<br>
         {{ form.cost(class="form-control") }}<br>
         {% for error in form.cost.errors %}
-            <p class="alert alert-danger" role="alert">
-             {{ error }}
-            </p>
-        { % endfor %}
+    <p content="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
     </p>
     <p>
         {{ form.name.label }}<br>
         {{ form.name(class="form-control") }}<br>
         {% for error in form.name.errors %}
-            <p content="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-            {% endfor %}
+    <p content="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
     </p>
     <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
-        <input type="file" class="form-control-file" id="img_product" name="file">
+        <label for="img">Выберите файл</label>
+        <input type="file" class="form-control-file" id="img" name="file">
     </div>
     <div class="form-group">
-        <label for="photo">Приложите ZIP арзив с фотографиями в формате JPEG</label>
+        <label for="size">Выберите файл</label>
         <input type="file" class="form-control-file" id="size" name="file">
-    </div>
-        <div class="form-group">
-        <label for="classSelect">Какое у вас образование?</label>
-        <select class="form-control" id="product_category" name="class">
-            <option>Начальное</option>
-            <option>основное</option>
-            <option>среднее</option>
-            <option>Среднее профессиональное</option>
-            <option>Высшеее</option>
-        </select>
     </div>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
