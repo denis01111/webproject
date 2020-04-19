@@ -9,7 +9,6 @@ from register import RegisterForm
 from add_product import AddProductForm
 import zipfile
 import os
-from product import products
 from werkzeug.utils import secure_filename
 
 
@@ -99,18 +98,23 @@ def logout():
     return redirect('/')
 
 
+@app.route('/a')
+def a():
+    return render_template('a.html')
+
+
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     form = AddProductForm()
+    a = 'static/img/'
     if form.validate_on_submit():
         session = db_session.create_session()
         add_product = product.Product()
-        file = request.files['img']
         if request.method == 'POST':
         # save the single "profile" file
             profile = request.files['img']
-            profile.save(os.path.join(secure_filename(profile.filename)))
-        print(form.img)
+            print(str(add_product.return_id))
+            profile.save(a + str(add_product.return_id()) + '.png')
         session.add(add_product)
         session.commit()
         return redirect('/')
@@ -120,8 +124,6 @@ def add_product():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    print(form.errors)
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
