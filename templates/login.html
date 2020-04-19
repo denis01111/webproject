@@ -4,23 +4,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
 .log{
-    margin: -60% 10% 0 0;
+    margin: -40% 30% -20% 40%;
  }
 .photo{
     width: 350px; /* Ширина области */
     height:550px; /* Высота области */
-    margin: 0; /* Обнуляем отступы */
-    overflow: hidden; /* Прячем всё за пределами */
     margin: 0% 60% 0 0;
     }
 .login{
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
+  height: 100%;
   background: #f2f2f2;
 }
 </style>
@@ -34,7 +27,6 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
-<p>
             {{ form.email.label }}<br>
             {{ form.email(class="form-control", type="email", placeholder="Email") }}<br>
             {% for error in form.email.errors %}
@@ -42,8 +34,6 @@
                         {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
             {{ form.password.label }}<br>
             {{ form.password(class="form-control", type="password", placeholder="Password") }}<br>
             {% for error in form.password.errors %}
@@ -51,7 +41,6 @@
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit(type="submit", class="btn btn-success") }}</p>
         <div>{{ message }}</div>
