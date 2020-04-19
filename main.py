@@ -10,6 +10,8 @@ from add_product import AddProductForm
 import zipfile
 import os
 from product import products
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -101,19 +103,19 @@ def logout():
 def add_product():
     form = AddProductForm()
     if form.validate_on_submit():
-        print(form.img)
         session = db_session.create_session()
         add_product = product.Product()
-        add_product.name = form.name.data
-        add_product.cost = form.cost.data
-        with open(form.img.data, 'r+') as f:
-            f.write('static\img\{}'.format(form.id))
+        file = request.files['img']
+        if request.method == 'POST':
+        # save the single "profile" file
+            profile = request.files['img']
+            profile.save(os.path.join(secure_filename(profile.filename)))
+        print(form.img)
         session.add(add_product)
         session.commit()
         return redirect('/')
     return render_template('add_product.html', title='Добавление новости',
-                           form=form)
-
+                       form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
