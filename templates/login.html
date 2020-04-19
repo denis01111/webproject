@@ -3,6 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
+.photo{
+    width: 350px;
+    height: 550px;
+    padding: 1%;
+    }
 .login{
   width: 100%;
   margin: 0 auto;
@@ -28,6 +33,7 @@
 <div class="wrapper">
 <div class="login">
     <div class="log">
+            <img class='photo' src='static/img/login.jpg'>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
