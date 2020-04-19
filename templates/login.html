@@ -3,18 +3,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
-.log{
-    margin: -40% 30% -20% 40%;
- }
-.photo{
-    width: 350px; /* Ширина области */
-    height:550px; /* Высота области */
-    margin: 0% 60% 0 0;
-    }
 .login{
   width: 100%;
-  height: 100%;
-  background: #f2f2f2;
+  margin: 0 auto;
+}
+.log{
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #ebeeef;
 }
 </style>
 
@@ -22,7 +27,6 @@
 <title>Авторизация</title>
 <div class="wrapper">
 <div class="login">
-    <img class='photo' src='static/img/login.jpg'>
     <div class="log">
     <form action="" method="post">
         {{ form.hidden_tag() }}
