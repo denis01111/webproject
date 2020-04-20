@@ -8,8 +8,6 @@ from wtforms.validators import DataRequired
 class AddProductForm(FlaskForm):
     name = StringField("Название прордукта", validators=[DataRequired()])
     cost = StringField("Цена", validators=[DataRequired()])
-    size = FileField("Размер", validators=[DataRequired()])
     img = FileField("Фотография", validators=[DataRequired()])
     category = StringField("Категория", validators=[DataRequired()])
-    size = StringField("Размер", validators=[DataRequired()])
     submit = SubmitField('Добавить')

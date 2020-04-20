@@ -25,62 +25,52 @@ def load_user(user_id):
 
 @app.route('/clothes', methods=['GET', 'POST'])
 def clothes():
-    return render_template('clothes.html', title='Одежда',
-                           products=products['Одежда'])
+    return render_template('clothes.html', title='Одежда')
 
 
 @app.route('/shoes')
 def shoes():
-    return render_template('shoes.html', title='Обувь',
-                           products=products['Обувь'])
+    return render_template('shoes.html', title='Обувь')
 
 
 @app.route('/electronics', methods=['GET', 'POST'])
 def electronics():
-    return render_template('electronics.html', title='Электроника',
-                           products=products['Электроника'])
+    return render_template('electronics.html', title='Электроника')
 
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
-    return render_template('health.html', title='Здоровье',
-                           products=products['Здоровье'])
+    return render_template('health.html', title='Здоровье')
 
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html', title='Дом',
-                           products=products['Дом'])
+    return render_template('home.html', title='Дом')
 
 
 @app.route('/books', methods=['GET', 'POST'])
 def books():
-    return render_template('books.html', title='Книги',
-                           products=products['Книги'])
+    return render_template('books.html', title='Книги')
 
 
 @app.route('/jewelry', methods=['GET', 'POST'])
 def jewelry():
-    return render_template('jewelry.html', title='Ювелирные изделия',
-                           products=products['Ювелирные изделия'])
+    return render_template('jewelry.html', title='Ювелирные изделия')
 
 
 @app.route('/girls', methods=['GET', 'POST'])
 def girls():
-    return render_template('girls.html', title='Женщинам',
-                           products=products['Женщинам'])
+    return render_template('girls.html', title='Женщинам')
 
 
 @app.route('/sport', methods=['GET', 'POST'])
 def sport():
-    return render_template('sport.html', title='Спорт',
-                           products=products['Спорт'])
+    return render_template('sport.html', title='Спорт')
 
 
 @app.route('/car', methods=['GET', 'POST'])
 def car():
-    return render_template('car.html', title='Автотовары',
-                           products=products['Автотовары'])
+    return render_template('car.html', title='Автотовары')
 
 
 @app.route('/')
@@ -105,12 +95,11 @@ def add_product():
         sessions = db_session.create_session()
         add_product = product.Product()
         if request.method == 'POST':
-            for user in sessions.query(product.Product).all():
-                print(user, 1)
             profile = request.files['img']
             profile.save(a + str(len(sessions.query(product.Product.id).all())) + '.png')
             add_product.name = form.name.data
             add_product.cost = form.cost.data
+            add_product.category = form.category.data
             sessions.add(add_product)
             sessions.commit()
         return redirect('/')
