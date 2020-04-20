@@ -9,9 +9,7 @@ from register import RegisterForm
 from add_product import AddProductForm
 import zipfile
 import os
-from product import products
 from werkzeug.utils import secure_filename
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -102,26 +100,27 @@ def logout():
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     form = AddProductForm()
+    a = 'static/img/'
     if form.validate_on_submit():
-        session = db_session.create_session()
+        sessions = db_session.create_session()
         add_product = product.Product()
-        file = request.files['img']
         if request.method == 'POST':
-        # save the single "profile" file
+            for user in sessions.query(product.Product).all():
+                print(user, 1)
             profile = request.files['img']
-            profile.save(os.path.join(secure_filename(profile.filename)))
-        print(form.img)
-        session.add(add_product)
-        session.commit()
+            profile.save(a + str(len(sessions.query(product.Product.id).all())) + '.png')
+            add_product.name = form.name.data
+            add_product.cost = form.cost.data
+            sessions.add(add_product)
+            sessions.commit()
         return redirect('/')
     return render_template('add_product.html', title='Добавление новости',
-                       form=form)
+                           form=form)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    print(form.errors)
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
