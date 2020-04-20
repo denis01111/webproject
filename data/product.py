@@ -12,10 +12,7 @@ class Product(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    size = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
-    img_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     cost = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    product_category = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def return_id(self):
         return self.id

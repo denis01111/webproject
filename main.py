@@ -11,7 +11,6 @@ import zipfile
 import os
 from werkzeug.utils import secure_filename
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
@@ -110,16 +109,20 @@ def add_product():
     if form.validate_on_submit():
         session = db_session.create_session()
         add_product = product.Product()
+
         if request.method == 'POST':
-        # save the single "profile" file
+            for user in session.query(product.Product).all():
+                print(user, 1)
             profile = request.files['img']
-            print(str(add_product.return_id))
-            profile.save(a + str(add_product.return_id()) + '.png')
-        session.add(add_product)
-        session.commit()
+            profile.save(a + str(len(session.query(product.Product.id).all())) + '.png')
+            add_product.name = form.name.data
+            add_product.cost = form.cost.data
+            session.add(add_product)
+            session.commit()
         return redirect('/')
     return render_template('add_product.html', title='Добавление новости',
-                       form=form)
+                           form=form)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
