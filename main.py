@@ -10,8 +10,13 @@ from add_product import AddProductForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
+from PIL import Image
+
 arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
                 'Женщинам', 'Спорт', 'Автотовары']
+
+
+arr_to_basket = {}
 
 
 app = Flask(__name__)
@@ -28,58 +33,60 @@ def load_user(user_id):
 
 @app.route('/clothes', methods=['GET', 'POST'])
 def clothes():
-    return render_template('clothes.html', title='Одежда')
+    return render_template('things.html', title='Одежда')
 
 
 @app.route('/shoes')
 def shoes():
-    return render_template('shoes.html', title='Обувь')
+    return render_template('things.html', title='Обувь')
 
 
 @app.route('/electronics', methods=['GET', 'POST'])
 def electronics():
-    return render_template('electronics.html', title='Электроника')
+    return render_template('things.html', title='Электроника')
 
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
-    return render_template('health.html', title='Здоровье')
+    return render_template('things.html', title='Здоровье')
 
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html', title='Дом')
+    return render_template('things.html', title='Дом')
 
 
 @app.route('/books', methods=['GET', 'POST'])
 def books():
-    return render_template('books.html', title='Книги')
+    return render_template('things.html', title='Книги')
 
 
 @app.route('/jewelry', methods=['GET', 'POST'])
 def jewelry():
-    return render_template('jewelry.html', title='Ювелирные изделия')
+    return render_template('things.html', title='Ювелирные изделия')
 
 
 @app.route('/girls', methods=['GET', 'POST'])
 def girls():
-    return render_template('girls.html', title='Женщинам')
+    return render_template('things.html', title='Женщинам')
 
 
 @app.route('/sport', methods=['GET', 'POST'])
 def sport():
-    return render_template('sport.html', title='Спорт')
+    return render_template('things.html', title='Спорт')
 
 
 @app.route('/car', methods=['GET', 'POST'])
 def car():
-    return render_template('car.html', title='Автотовары')
+    return render_template('things.html', title='Автотовары')
 
 
 @app.route('/')
 def delete():
     try:
-        return render_template('base.html', title="Магазин")
+        session = db_session.create_session()
+        products = session.query(product.Product)
+        return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
 
@@ -103,8 +110,11 @@ def add_product():
                                        form=form,
                                        message="Такой категории не существует!")
             profile = request.files['img']
-            profile.save(a + str(len(sessions.query(product.Product.id).all())) + '.png')
+            image_location = a + str(len(sessions.query(product.Product.id).all())) + '.png'
+            profile.save(image_location)
             add_product.name = form.name.data
+            add_product.img = image_location
+
             add_product.cost = form.cost.data
             add_product.category = form.category.data
             sessions.add(add_product)
@@ -151,6 +161,19 @@ def login():
             return redirect('/')
         return render_template('login.html', message='Неправильный логин или пароль', form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
+def add_in_basket(post_id):
+    sessions = db_session.create_session()
+    products = product.Product()
+    result = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    arr_to_basket[post_id] = result
+
+
+@app.route('/basket', methods=['GET', 'POST'])
+def basket():
+    pass
 
 
 @app.route("/cookie_test")
