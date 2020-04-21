@@ -98,7 +98,7 @@ def add_product():
         sessions = db_session.create_session()
         add_product = product.Product()
         if request.method == 'POST':
-            if sessions.query(product.Product.category).first() not in arr_category:
+            if form.category.data not in arr_category:
                 return render_template('add_product.html', title='Добавление продукта',
                                        form=form,
                                        message="Такой категории не существует!")
