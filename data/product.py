@@ -14,3 +14,6 @@ class Product(SqlAlchemyBase, UserMixin, SerializerMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     cost = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     category = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    def return_id(self):
+        return self.id
