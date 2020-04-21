@@ -9,25 +9,60 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <title>{{ title }}</title>
-    {% block head %}{% endblock %}
-    {% if current_user.is_authenticated %}
-        <div align="right">
-            <a class="name">{{ current_user.name }}</a>
-            <a class="btn btn-success" href="/exit">Выйти</a>
-        </div>
-        {% if current_user.name == 'admin' %}
-            <div align="right">
-                <a class="btn btn-success" href="/add_product">Добавить товар</a>
-            </div>
-        {% endif %}
-    {% else %}
-    <div class="menu" align="right">
-            <a class="btn btn-primary" href="/register">Sign up</a>
-            <a class="btn btn-success" href="/login">Sign in</a>
-    </div>
+    {% if current_user.is_authenticated and current_user.name != 'admin' %}
+        <ul class="fail">
+          <li class="fall"><a href="#home">Главная</a></li>
+          <li class="fall"><a href="#contact">О Нас</a></li>
+          <li class="fall" style="float:right"><a href="#contact">Корзина</a></li>
+          <li class="fall" style="float:right"><a class="active" href="#about">Мой профиль</a></li>
+          <li class="fall" style="float:right"><a class="btn btn-success" href="/exit">Выйти</a></li>
+        </ul>
     {% endif %}
+    {% if not current_user.is_authenticated %}
+        <ul class="fail">
+          <li class="fall"><a href="#home">Главная</a></li>
+          <li class="fall"><a href="#contact">О Нас</a></li>
+          <li class="fall" style="float:right"><a href="#contact">Корзина</a></li>
+          <li class="fall" style="float:right"> <a class="btn btn-primary" href="/register">Sign up</a></li>
+          <li class="fall" style="float:right"><a class="btn btn-success" href="/login">Sign in</a></li>
+        </ul>
+    {% endif %}
+    {% if current_user.is_authenticated and current_user.name == 'admin' %}
+        <ul class="fail">
+          <li class="fall"><a href="#home">Главная</a></li>
+          <li class="fall"><a href="#contact">О Нас</a></li>
+          <li class="fall" style="float:right"><a class="btn btn-success" href="/add_product">Добавить товар</a></li>
+          <li class="fall" style="float:right"><a class="btn btn-success" href="/exit">Выйти</a></li>
+        </ul>
+    {% endif %}
+    {% block head %}{% endblock %}
 </head>
 <style>
+ul.fail {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+li.fall {
+    float: left;
+}
+li.fall a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.fall a:hover:not(.active) {
+    background-color: #90EE90;
+}
+
+.active {
+    background-color: #4682B4;
+}
 body {
   background-image: url('static/img/fon.jpg');
   background-repeat: no-repeat;
@@ -54,11 +89,11 @@ color: blue;
 .menu{
     border-radius: 20px;
 	width: 100%;
-	padding: 1%;
+	padding: 7%;
 }
 ul{
-	margin:0px;
-	padding:0px;
+	margin: 0 0 0 0;
+	padding: 0px;
 }
 
 ul li{
