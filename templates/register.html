@@ -3,34 +3,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
-.reg{
-    margin: 0 0 0 0;
- }
 .photo{
-    width: 400px; /* Ширина области */
-    height:550px; /* Высота области */
-    margin: 0; /* Обнуляем отступы */
-    overflow: hidden; /* Прячем всё за пределами */
-    margin: 0% 60% 0 0;
+    width: 40%;
+    height: 50%;
+    padding: 1%;
     }
 .register{
   width: 100%;
+  margin: 0 auto;
+}
+.reg{
+  width: 100%;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: #f2f2f2;
+  background: #ebeeef;
 }
 </style>
 
 
 {% block content %}
 <title>Регистрация</title>
+<div class="wrapper">
 <div class="register">
-    <img class='photo' src='static/img/register.jpg'>
     <div class="reg">
+            <img class='photo' src='static/img/register.jpg'>
     <form action="" method="post">
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
@@ -76,5 +80,6 @@
     {{message}}
 </form>
     </div>
+</div>
 </div>
 {% endblock %}
