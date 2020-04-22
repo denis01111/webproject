@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Записи в блоге</h1>
+{% for item in products %}
+<div class="col-md6 border rounded">
+    <div>
+        <img src={{item.img}}>
+    </div>
+    <div>
+
+        {{item.name}}, цена - {{item.cost}} руб.
+        <a href={{item.add_to_basket_id}}><button>Добавить в козину</button></a>
+    </div>
+
+</div>
+{% endfor %}
+{% endblock %}

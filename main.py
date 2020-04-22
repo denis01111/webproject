@@ -84,8 +84,8 @@ def car():
 @app.route('/')
 def delete():
     try:
-        session = db_session.create_session()
-        products = session.query(product.Product)
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product)
         return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
@@ -114,7 +114,8 @@ def add_product():
             profile.save(image_location)
             add_product.name = form.name.data
             add_product.img = image_location
-
+            add_product.add_to_basket_id = '/add_in_basket/' +\
+                                           str(len(sessions.query(product.Product.id).all()) + 1)
             add_product.cost = form.cost.data
             add_product.category = form.category.data
             sessions.add(add_product)
@@ -169,11 +170,12 @@ def add_in_basket(post_id):
     products = product.Product()
     result = sessions.query(product.Product).filter(product.Product.id == post_id).first()
     arr_to_basket[post_id] = result
+    return redirect('/')
 
 
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
-    pass
+    return render_template('basket.html', title='Корзина')
 
 
 @app.route("/cookie_test")
