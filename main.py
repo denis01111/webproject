@@ -13,11 +13,10 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 
 arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
-                'Женщинам', 'Спорт', 'Автотовары']
-
+                                                                              'Женщинам', 'Спорт',
+                'Автотовары']
 
 arr_to_basket = {}
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -114,7 +113,7 @@ def add_product():
             profile.save(image_location)
             add_product.name = form.name.data
             add_product.img = image_location
-            add_product.add_to_basket_id = '/add_in_basket/' +\
+            add_product.add_to_basket_id = '/add_in_basket/' + \
                                            str(len(sessions.query(product.Product.id).all()) + 1)
             add_product.cost = form.cost.data
             add_product.category = form.category.data
@@ -162,6 +161,14 @@ def login():
             return redirect('/')
         return render_template('login.html', message='Неправильный логин или пароль', form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/browse_product/<int:post_id>/', methods=['GET', 'POST'])
+def browse_product(post_id):
+    sessions = db_session.create_session()
+    products = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    print(products)
+    return render_template("browse_product.html", products=products)
 
 
 @app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
