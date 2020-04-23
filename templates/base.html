@@ -11,33 +11,39 @@
     <title>{{ title }}</title>
     {% if current_user.is_authenticated and current_user.name != 'admin' %}
         <ul class="fail">
-          <li class="fall"><a href="/"><img src="static/img/menu.png">Главная</a></li>
-          <li class="fall"><a href="#contact">О Нас</a></li>
-          <li class="fall" style="float:right"><a href="/basket"><img src="static/img/baskets.png"></a></li>
-          <li class="fall" style="float:right"><a class="active" href="#about"><img src="static/img/contact.png">Мой профиль</a></li>
-          <li class="fall" style="float:right"><a class="btn btn-success" href="/exit">Выйти</a></li>
+          <li class="fall"><a href="/"><img class='photo' src="static/img/menu.png">ГЛАВНАЯ</a></li>
+          <li class="fall"><a href="#contact"><img class='photo' src="static/img/message.png">О НАС</a></li>
+          <li class="fall" style="float:right"><a class="btn btn-success" href="/exit"><img class='exit' src="static/img/exit.png">ВЫЙТИ</a></li>
+          <li class="fall" style="float:right"><a href="#about"><img class='photo' src="static/img/contact.png">МОЙ ПРОФИЛЬ</a></li>
+          <li class="fall" style="float:right"><a href="/basket"><img class='photo' src="static/img/baskets.png"></a></li>
         </ul>
     {% endif %}
     {% if not current_user.is_authenticated %}
         <ul class="fail">
-          <li class="fall"><a href="/"><img src="static/img/menu.png">ГЛАВНАЯ</a></li>
-          <li class="fall"><a href="#contact">О НАС</a></li>
-            <li class="fall" style="float:right"><a href="/basket"><img src="static/img/baskets.png"></a></li>
+          <li class="fall"><a href="/"><img class='photo' src="static/img/menu.png">ГЛАВНАЯ</a></li>
+          <li class="fall"><a href="#contact"><img class='photo' src="static/img/message.png">О НАС</a></li>
           <li class="fall" style="float:right"> <a href="/register">РЕГИСТРАЦИЯ</a></li>
           <li class="fall" style="float:right"><a href="/login">АВТОРИЗАЦИЯ</a></li>
+          <li class="fall" style="float:right"><a href="/basket"><img class='photo' src="static/img/baskets.png"></a></li>
         </ul>
     {% endif %}
     {% if current_user.is_authenticated and current_user.name == 'admin' %}
         <ul class="fail">
-          <li class="fall"><a href="/">Главная</a></li>
-          <li class="fall"><a href="#contact">О Нас</a></li>
-          <li class="fall" style="float:right"><a href="/add_product">Добавить товар</a></li>
-          <li class="fall" style="float:right"><a href="/exit">Выйти</a></li>
+          <li class="fall"><a href="/"><img class='photo' src="static/img/menu.png">ГЛАВНАЯ</a></li>
+          <li class="fall"><a href="#contact"><img class='photo' src="static/img/message.png">О НАС</a></li>
+          <li class="fall" style="float:right"><a href="/add_product">ДОБАВИТЬ ТОВАР</a></li>
+          <li class="fall" style="float:right"><a href="/exit"><img class='exit' src="static/img/exit.png">ВЫЙТИ</a></li>
         </ul>
     {% endif %}
     {% block head %}{% endblock %}
 </head>
 <style>
+.photo{
+margin-top: -10%;
+}
+.exit{
+margin-top: -4%;
+}
 ul.fail {
     list-style-type: none;
     margin-left: 5%;
