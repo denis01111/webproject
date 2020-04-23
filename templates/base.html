@@ -11,28 +11,28 @@
     <title>{{ title }}</title>
     {% if current_user.is_authenticated and current_user.name != 'admin' %}
         <ul class="fail">
-          <li class="fall"><a href="/">Главная</a></li>
+          <li class="fall"><a href="/"><img src="static/img/menu.png">Главная</a></li>
           <li class="fall"><a href="#contact">О Нас</a></li>
-          <li class="fall" style="float:right"><a href="/basket"><img src="static/img/basket.png"></a></li>
-          <li class="fall" style="float:right"><a class="active" href="#about">Мой профиль</a></li>
+          <li class="fall" style="float:right"><a href="/basket"><img src="static/img/baskets.png"></a></li>
+          <li class="fall" style="float:right"><a class="active" href="#about"><img src="static/img/contact.png">Мой профиль</a></li>
           <li class="fall" style="float:right"><a class="btn btn-success" href="/exit">Выйти</a></li>
         </ul>
     {% endif %}
     {% if not current_user.is_authenticated %}
         <ul class="fail">
-          <li class="fall"><a href="/">Главная</a></li>
-          <li class="fall"><a href="#contact">О Нас</a></li>
-            <li class="fall" style="float:right"><a href="/basket"><img src="static/img/basket.png"></a></li>
-          <li class="fall" style="float:right"> <a class="btn btn-primary" href="/register">Регистрация</a></li>
-          <li class="fall" style="float:right"><a class="btn btn-success" href="/login">Авторизация</a></li>
+          <li class="fall"><a href="/"><img src="static/img/menu.png">ГЛАВНАЯ</a></li>
+          <li class="fall"><a href="#contact">О НАС</a></li>
+            <li class="fall" style="float:right"><a href="/basket"><img src="static/img/baskets.png"></a></li>
+          <li class="fall" style="float:right"> <a href="/register">РЕГИСТРАЦИЯ</a></li>
+          <li class="fall" style="float:right"><a href="/login">АВТОРИЗАЦИЯ</a></li>
         </ul>
     {% endif %}
     {% if current_user.is_authenticated and current_user.name == 'admin' %}
         <ul class="fail">
           <li class="fall"><a href="/">Главная</a></li>
           <li class="fall"><a href="#contact">О Нас</a></li>
-          <li class="fall" style="float:right"><a class="btn btn-success" href="/add_product">Добавить товар</a></li>
-          <li class="fall" style="float:right"><a class="btn btn-success" href="/exit">Выйти</a></li>
+          <li class="fall" style="float:right"><a href="/add_product">Добавить товар</a></li>
+          <li class="fall" style="float:right"><a href="/exit">Выйти</a></li>
         </ul>
     {% endif %}
     {% block head %}{% endblock %}
@@ -40,31 +40,34 @@
 <style>
 ul.fail {
     list-style-type: none;
-    margin: 0;
+    margin-left: 5%;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
 }
 li.fall {
     float: left;
 }
-li.fall a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+li.fall a{
+  border: medium none;
+  background-image: none;
+  background: transparent;
+  float: left;
+  background-color: transparent;
+  display: inline-block;
+  width: 200px;
+  height: 60px;
+  padding: 20px;
+  color: #000000;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
 }
-
 li.fall a:hover:not(.active) {
-    background-color: #90EE90;
-}
-
-.active {
-    background-color: #4682B4;
+    background-color: #d2d7d3;
 }
 body {
-  background-image: url('static/img/fon.jpg');
+  font-family: 'Montserrat', sans-serif;
+  background-image: url('static/img/font.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -72,19 +75,18 @@ body {
 color: blue;
 }
 #sidebar{
-	background:#151718;
-	width:200px;
-	height:100%;
-	display:block;
-	position:absolute;
-	left:-200px;
-	top:0px;
+	background: #151718;
+    width: 200px;
+	height: 100%;
+	display: block;
+	position: absolute;
+	left: -200px;
+	top: 0px;
 	transition:left 0.3s linear;
 }
-
 #sidebar.visible{
-	left:0px;
-	transition:left 0.3s linear;
+	left: 0px;
+	transition: left 0.3s linear;
 }
 .menu{
     border-radius: 20px;
@@ -101,32 +103,30 @@ ul li{
 }
 
 ul li a{
-	background:#1C1E1F;
-	color:#ccc;
-	border-bottom:1px solid #111;
-	display:block;
-	width:180px;
-	padding:10px;
+	background: #1C1E1F;
+	color: #ccc;
+	border-bottom: 1px solid #111;
+	display :block;
+	width: 180px;
+	padding: 10px;
 	text-decoration: none;
 }
-
 #sidebar-btn{
-	display:inline-block;
+	display: inline-block;
 	vertical-align: middle;
-	width:20px;
-	height:15px;
-	cursor:pointer;
-	margin:20px;
-	position:absolute;
-	top:0px;
-	right:-60px;
+	width: 20px;
+	height: 15px;
+	cursor: pointer;
+	margin: 20px;
+	position: absolute;
+	top: 0px;
+	right: -60px;
 }
-
 #sidebar-btn span{
-	height:1px;
-	background:#111;
-	margin-bottom:5px;
-	display:block;
+	height: 1px;
+	background: #111;
+	margin-bottom: 5px;
+	display: block;
 }
 
 #sidebar-btn span:nth-child(2){
@@ -138,15 +138,15 @@ ul li a{
 }
 a.boton1{
   border-radius: 5px;
-  background:#eee;
-  color:#088;
-  text-decoration:none;
-  display:block;
-  width:100px;
-  text-align:center;
-  margin:20px auto;
-  padding:10px 10px;
-  transition:all 0.3s;
+  background: #eee;
+  color: #088;
+  text-decoration: none;
+  display: block;
+  width: 100px;
+  text-align: center;
+  margin: 20px auto;
+  padding: 10px 10px;
+  transition: all 0.3s;
   }
  a.boton1:hover{
   box-shadow:0px -5px 0 #088 inset;
