@@ -3,12 +3,10 @@
 {% block content %}
 <h1>Записи в блоге</h1>
 <div class="col-md6 border rounded">
-    <div>
-        <img src={{products.img}}>
-    </div>
+    <img src={{products.img}}>
     <div>
         <p>{{products.name}}, цена - {{products.cost}} руб.</p>
-        <a href={{products.add_to_basket_id}}><button>Добавить в козину</button></a>
+        <a href={{products.add_to_basket_id}}><button>Добавить в козину {{products.img}}</button></a>
     </div>
 
 </div>

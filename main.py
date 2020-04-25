@@ -10,6 +10,7 @@ from add_product import AddProductForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
+import PIL
 from PIL import Image
 
 arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
@@ -32,52 +33,100 @@ def load_user(user_id):
 
 @app.route('/clothes', methods=['GET', 'POST'])
 def clothes():
-    return render_template('things.html', title='Одежда')
-
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Одежда')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 @app.route('/shoes')
 def shoes():
-    return render_template('things.html', title='Обувь')
-
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Обувь')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 @app.route('/electronics', methods=['GET', 'POST'])
 def electronics():
-    return render_template('things.html', title='Электроника')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Электроника')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/health', methods=['GET', 'POST'])
 def health():
-    return render_template('things.html', title='Здоровье')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Здоровье')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    return render_template('things.html', title='Дом')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Дом')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/books', methods=['GET', 'POST'])
 def books():
-    return render_template('things.html', title='Книги')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Книги')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/jewelry', methods=['GET', 'POST'])
 def jewelry():
-    return render_template('things.html', title='Ювелирные изделия')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'изделия')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/girls', methods=['GET', 'POST'])
 def girls():
-    return render_template('things.html', title='Женщинам')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Женщинам')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/sport', methods=['GET', 'POST'])
 def sport():
-    return render_template('things.html', title='Спорт')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Спорт')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/car', methods=['GET', 'POST'])
 def car():
-    return render_template('things.html', title='Автотовары')
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Автотовары')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
 
 
 @app.route('/')
@@ -109,8 +158,15 @@ def add_product():
                                        form=form,
                                        message="Такой категории не существует!")
             profile = request.files['img']
-            image_location = a + str(len(sessions.query(product.Product.id).all())) + '.png'
+            image_location = a + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
             profile.save(image_location)
+            baseheight = 100
+            img = Image.open(image_location)
+            hpercent = (baseheight / float(img.size[1]))
+            wsize = int((float(img.size[0]) * float(hpercent)))
+            img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
+            img.save(image_location)
+            add_product.img = image_location
             add_product.name = form.name.data
             add_product.img = image_location
             add_product.add_to_basket_id = '/add_in_basket/' + \
@@ -174,7 +230,6 @@ def browse_product(post_id):
 @app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
 def add_in_basket(post_id):
     sessions = db_session.create_session()
-    products = product.Product()
     result = sessions.query(product.Product).filter(product.Product.id == post_id).first()
     arr_to_basket[post_id] = result
     return redirect('/')
@@ -182,7 +237,9 @@ def add_in_basket(post_id):
 
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
-    return render_template('basket.html', title='Корзина')
+    all_articles = list(arr_to_basket.values())
+    print(all_articles)
+    return render_template('product_display.html', title='Корзина', products=all_articles)
 
 
 @app.route("/cookie_test")

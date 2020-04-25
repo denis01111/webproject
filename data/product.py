@@ -15,6 +15,6 @@ class Product(SqlAlchemyBase, UserMixin, SerializerMixin):
     cost = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     category = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     add_to_basket_id = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
+    img  = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     def return_id(self):
         return self.id
