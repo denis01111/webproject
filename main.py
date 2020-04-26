@@ -182,16 +182,21 @@ def add_product():
             return render_template('price_product.html', form=form)
 
         if form.cost.data and product_add_one['Категория']:
-            product_add_one['Цена'] = form.cost.data
-            products.name = product_add_one['Название']
-            products.img = product_add_one['Изображение']
-            products.add_to_basket_id = '/add_in_basket/' + \
-                                           str(len(sessions.query(product.Product.id).all()) + 1)
-            products.cost = product_add_one['Цена']
-            products.category = product_add_one['Категория']
-            sessions.add(products)
-            sessions.commit()
-            print(1)
+            try:
+                trues = int(form.cost.data)
+                product_add_one['Цена'] = form.cost.data
+                products.name = product_add_one['Название']
+                products.img = product_add_one['Изображение']
+                products.add_to_basket_id = '/add_in_basket/' + \
+                                             str(len(sessions.query(product.Product.id).all()) + 1)
+                products.cost = product_add_one['Цена']
+                products.category = product_add_one['Категория']
+                sessions.add(products)
+                sessions.commit()
+            except:
+                return render_template('price_product.html', title='Добавление продукта',
+                                       form=form,
+                                       message="Вы ввели некоректные данные!")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 
