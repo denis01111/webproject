@@ -3,10 +3,11 @@ from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
-from data import db_session, users, product
+from data import db_session, users, product, order
 from loginform import LoginForm
 from register import RegisterForm
 from add_product import AddProductForm
+from decoration_orders import Decoration
 import zipfile
 import os
 from werkzeug.utils import secure_filename
@@ -259,8 +260,7 @@ def add_in_basket(post_id):
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
     all_articles = list(arr_to_basket.values())
-    print(all_articles)
-    return render_template('product_display.html', title='Корзина', products=all_articles)
+    return render_template('basket.html', title='Корзина')
 
 
 @app.route("/cookie_test")
@@ -280,6 +280,25 @@ def session_test():
     session.permanent = True
     session['visits_count'] = session.get('visits_count', 0) + 1
     return f"Вы зашли на страницу {session['visits_count']} раз!"
+
+
+@app.route('/arrange', methods=['GET', 'POST'])
+def arrange():
+    form = Decoration()
+    if form.validate_on_submit():
+        if request.method == 'POST':
+            sessions = db_session.create_session()
+            decor = order.Order()
+            decor.name = form.name.data
+            decor.surname = form.surname.data
+            decor.telephone = form.telephone.data
+            decor.email = form.email.data
+            decor.products = ', '.join([str(i) for i in arr_to_basket])
+            decor.address = form.address.data
+            sessions.add(decor)
+            sessions.commit()
+        return redirect('/')
+    return render_template('orders.html', title='Оформление заказа', form=form)
 
 
 def main():

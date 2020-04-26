@@ -1,0 +1,86 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.photo{
+    width: 40%;
+    height: 50%;
+    padding: 1%;
+}
+.login{
+  width: 100%;
+  margin: 0 auto;
+}
+.log{
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #ebeeef;
+}
+</style>
+
+{% block content %}
+<title>Авторизация</title>
+<div class="wrapper">
+<div class="login">
+    <div class="log">
+            <img class='photo' src='static/img/login.jpg'>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control", placeholder="Имя") }}<br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                </div>
+            {% endfor %}
+
+            {{ form.surname.label }}<br>
+            {{ form.surname(class="form-control", placeholder="Фамилия") }}<br>
+            {% for error in form.surname.errors %}
+                <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                </div>
+            {% endfor %}
+
+            {{ form.telephone.label }}<br>
+            {{ form.telephone(class="form-control", type="telephone", placeholder="Телефон") }}<br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                </div>
+            {% endfor %}
+
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control", type="email", placeholder="Email") }}<br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                </div>
+            {% endfor %}
+
+            {{ form.address.label }}<br>
+            {{ form.address(class="form-control", placeholder="Адрес") }}<br>
+            {% for error in form.address.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        <p>{{ form.submit(type="submit", class="btn btn-success", href='/decorations') }}</p>
+        <div>{{ message }}</div>
+    </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
