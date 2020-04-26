@@ -14,8 +14,10 @@ import PIL
 from PIL import Image
 
 arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
-                                                                              'Женщинам', 'Спорт',
-                'Автотовары']
+                'Спорт', 'Автотовары']
+
+product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Размер': '',
+                   'Цена': ''}
 
 arr_to_basket = {}
 
@@ -40,6 +42,7 @@ def clothes():
     except:
         return 'There was a problem deleting that task'
 
+
 @app.route('/shoes')
 def shoes():
     try:
@@ -48,6 +51,7 @@ def shoes():
         return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
+
 
 @app.route('/electronics', methods=['GET', 'POST'])
 def electronics():
@@ -93,17 +97,8 @@ def books():
 def jewelry():
     try:
         sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'изделия')
-        return render_template("product_display.html", products=products)
-    except:
-        return 'There was a problem deleting that task'
-
-
-@app.route('/girls', methods=['GET', 'POST'])
-def girls():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'Женщинам')
+        products = sessions.query(product.Product).filter(product.Product.category
+                                                          == 'Ювелирные изделия')
         return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
@@ -134,7 +129,7 @@ def delete():
     try:
         sessions = db_session.create_session()
         products = sessions.query(product.Product)
-        return render_template("product_display.html", products=products)
+        return render_template("base.html", products=products, title='Главная')
     except:
         return 'There was a problem deleting that task'
 
@@ -148,15 +143,28 @@ def logout():
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     form = AddProductForm()
-    a = 'static/img/'
-    if form.validate_on_submit():
+    if request.method == 'POST':
         sessions = db_session.create_session()
-        add_product = product.Product()
-        if request.method == 'POST':
-            if form.category.data not in arr_category:
-                return render_template('add_product.html', title='Добавление продукта',
-                                       form=form,
-                                       message="Такой категории не существует!")
+        products = product.Product()
+        if form.category.data not in arr_category and product_add_one['Категория'] == '':
+            return render_template('add_product.html', title='Добавление продукта',
+                                   form=form,
+                                   message="Такой категории не существует!")
+
+        if form.category.data in arr_category:
+            product_add_one['Категория'] = form.category.data
+            return render_template('name_product.html', form=form)
+
+        if form.name.data and product_add_one['Категория']:
+            product_add_one['Название'] = form.name.data
+            return render_template('about_product.html', form=form)
+
+        if form.about.data and product_add_one['Категория']:
+            product_add_one['Описание'] = form.about.data
+            return render_template('img_product.html', form=form)
+
+        if form.img.data and product_add_one['Категория']:
+            a = 'static/img/'
             profile = request.files['img']
             image_location = a + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
             profile.save(image_location)
@@ -166,18 +174,26 @@ def add_product():
             wsize = int((float(img.size[0]) * float(hpercent)))
             img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
             img.save(image_location)
-            add_product.img = image_location
-            add_product.name = form.name.data
-            add_product.img = image_location
-            add_product.add_to_basket_id = '/add_in_basket/' + \
+            product_add_one['Изображение'] = image_location
+            return render_template('size_product.html', form=form)
+
+        if form.size.data and product_add_one['Категория']:
+            product_add_one['Размер'] = form.size.data
+            return render_template('price_product.html', form=form)
+
+        if form.cost.data and product_add_one['Категория']:
+            product_add_one['Цена'] = form.cost.data
+            products.name = product_add_one['Название']
+            products.img = product_add_one['Изображение']
+            products.add_to_basket_id = '/add_in_basket/' + \
                                            str(len(sessions.query(product.Product.id).all()) + 1)
-            add_product.cost = form.cost.data
-            add_product.category = form.category.data
-            sessions.add(add_product)
+            products.cost = product_add_one['Цена']
+            products.category = product_add_one['Категория']
+            sessions.add(products)
             sessions.commit()
+            print(1)
         return redirect('/')
-    return render_template('add_product.html', title='Добавление продукта',
-                           form=form)
+    return render_template('add_product.html', title='Добавление продукта', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -1,0 +1,14 @@
+{% block content %}
+<h1>Добавление новости</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    <div class="form-group">
+        <label for="img">Выберите файл</label>
+        <input type="file" class="form-control-file" id="img" name="img">
+    </div>
+<br>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{ message }}
+</form>
+{% endblock %}

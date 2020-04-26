@@ -5,9 +5,9 @@
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
     <p>
-        {{ form.category.label }}<br>
-        {{ form.category(class="form-control") }}<br>
-        {% for error in form.category.errors %}
+        {{ form.about.label }}<br>
+        {{ form.about(class="form-control") }}<br>
+        {% for error in form.about.errors %}
     <p content="alert alert-danger" role="alert">
         {{ error }}
     </p>
