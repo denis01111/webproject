@@ -338,8 +338,8 @@ def arrange():
 
 
 def main():
-    db_session.global_init('db/blogs.sqlite')
     app.run(debug=True)
+    db_session.global_init('db/blogs.sqlite')
 
 
 if __name__ == '__main__':
