@@ -8,6 +8,7 @@ from loginform import LoginForm
 from register import RegisterForm
 from add_product import AddProductForm
 from decoration_orders import Decoration
+from profile import ProfileForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
@@ -204,6 +205,16 @@ def add_product():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    form = ProfileForm()
+    print(form.validate_on_submit())
+    current_user.get_id()
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
+        if user and user.password == form.password.data:
+            return redirect('/')
+        return render_template('Profile.html', message='Неправильный логин или пароль', form=form)
+    return render_template('Profile.html', title='Авторизация', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -239,7 +250,7 @@ def login():
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.password == form.password.data:
-            login_user(user, remember=form.remember_me.data)
+            login_user(user, remember=form.remember_me.data, user=user)
             return redirect('/')
         return render_template('login.html', message='Неправильный логин или пароль', form=form)
     return render_template('login.html', title='Авторизация', form=form)
