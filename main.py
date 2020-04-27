@@ -8,7 +8,7 @@ from loginform import LoginForm
 from register import RegisterForm
 from add_product import AddProductForm
 from decoration_orders import Decoration
-from profile import ProfileForm
+from Profile import ProfileForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
@@ -130,7 +130,9 @@ def car():
 def delete():
     try:
         sessions = db_session.create_session()
+        print(1)
         products = sessions.query(product.Product)
+        print(2)
         return render_template("product_display.html", products=products, title='Главная')
     except:
         return 'There was a problem deleting that task'
@@ -191,7 +193,8 @@ def add_product():
                 products.name = product_add_one['Название']
                 products.img = product_add_one['Изображение']
                 products.add_to_basket_id = '/add_in_basket/' + \
-                                             str(len(sessions.query(product.Product.id).all()) + 1)
+                                            str(len(sessions.query(product.Product.id).all()) + 1)
+
                 products.cost = product_add_one['Цена']
                 products.category = product_add_one['Категория']
                 sessions.add(products)
@@ -203,18 +206,36 @@ def add_product():
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    sessions = db_session.create_session()
+    user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
+    return render_template('Profile.html', title='Авторизация',user=user)
+
+@app.route('/profile_update', methods=['GET', 'POST'])
+def profile_update():
     form = ProfileForm()
-    print(form.validate_on_submit())
-    current_user.get_id()
-    if form.validate_on_submit():
-        sessions = db_session.create_session()
-        user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
-        if user and user.password == form.password.data:
-            return redirect('/')
-        return render_template('Profile.html', message='Неправильный логин или пароль', form=form)
-    return render_template('Profile.html', title='Авторизация', form=form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            sessions = db_session.create_session()
+            user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
+            if user.password != form.password.data:
+                return render_template('profile_update.html', title='Обновление профиля', form=form, message='Не правильный пароль')
+            if form.email.data != '':
+                user.email = form.email.data
+            if form.password_new.data != '':
+                user.password = form.password_new.data
+            if form.telephone.data != '':
+                user.telephone = form.telephone.data
+            if form.city.data != '':
+                user.city = form.city.data
+            sessions.add(user)
+            sessions.commit()
+            return render_template('profile.html', title='Обновление профиля', form=form,
+                                   message='Данные успешно изменены', user=user)
+        return render_template('profile_update.html', title='Обновление профиля', form=form, message='')
+    return render_template('profile_update.html', title='Авторизация', form=form, message='')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -250,7 +271,7 @@ def login():
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.password == form.password.data:
-            login_user(user, remember=form.remember_me.data, user=user)
+            login_user(user, remember=form.remember_me.data)
             return redirect('/')
         return render_template('login.html', message='Неправильный логин или пароль', form=form)
     return render_template('login.html', title='Авторизация', form=form)
@@ -276,8 +297,6 @@ def add_in_basket(post_id):
 def basket():
     all_articles = list(arr_to_basket.values())
     return render_template('basket.html', title='Корзина', products=all_articles)
-
-
 
 
 @app.route("/cookie_test")
