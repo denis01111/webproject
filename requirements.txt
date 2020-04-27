@@ -20,7 +20,7 @@ coverage==3.6
 decorator==3.4.0
 flup==1.0.3.dev-20110405
 guess-language==0.2
-gunicorn==0.17.2
+gunicorn==19.5.0
 python-openid==2.2.5
 pytz==2013b
 speaklater==1.3
