@@ -263,6 +263,8 @@ def basket():
     return render_template('basket.html', title='Корзина')
 
 
+
+
 @app.route("/cookie_test")
 def cookie_test():
     visits_count = int(request.cookies.get("visits_count", 0))
