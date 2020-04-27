@@ -8,7 +8,7 @@ from loginform import LoginForm
 from register import RegisterForm
 from add_product import AddProductForm
 from decoration_orders import Decoration
-from profile import ProfileForm
+from Profile import ProfileForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
@@ -16,7 +16,7 @@ import PIL
 from PIL import Image
 
 arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
-                                                                              'Спорт', 'Автотовары']
+                'Спорт', 'Автотовары']
 
 product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Размер': '',
                    'Цена': ''}
