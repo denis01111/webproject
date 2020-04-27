@@ -130,7 +130,7 @@ def delete():
     try:
         sessions = db_session.create_session()
         products = sessions.query(product.Product)
-        return render_template("base.html", products=products, title='Главная')
+        return render_template("product_display.html", products=products, title='Главная')
     except:
         return 'There was a problem deleting that task'
 
@@ -183,6 +183,7 @@ def add_product():
             return render_template('price_product.html', form=form)
 
         if form.cost.data and product_add_one['Категория']:
+            print(int(form.cost.data))
             try:
                 trues = int(form.cost.data)
                 product_add_one['Цена'] = form.cost.data
@@ -200,6 +201,9 @@ def add_product():
                                        message="Вы ввели некоректные данные!")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -260,7 +264,7 @@ def add_in_basket(post_id):
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
     all_articles = list(arr_to_basket.values())
-    return render_template('basket.html', title='Корзина')
+    return render_template('basket.html', title='Корзина', products=all_articles)
 
 
 @app.route("/cookie_test")

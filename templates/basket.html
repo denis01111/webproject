@@ -1,1 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for item in products %}
+<div class="col-md6 border rounded">
+    <div>
+        <img src={{item.img}}>
+    </div>
+    <div>
+
+        {{item.name}}, цена - {{item.cost}} руб.
+        <a href='/browse_product/{{item.id}}'><button>Просмотреть</button></a>
+    </div>
+
+</div>
+{% endfor %}
 <a href="/arrange" style="margin: 0 25% 0 0;">Оформить заказ</a>
+{% endblock %}
