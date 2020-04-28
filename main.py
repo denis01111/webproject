@@ -279,15 +279,23 @@ def login():
 @app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
 def add_in_basket(post_id):
     sessions = db_session.create_session()
-    result = sessions.query(product.Product).filter(product.Product.id == post_id).first()
-    arr_to_basket[post_id] = result
+    result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    if post_id in arr_to_basket.keys():
+        arr_to_basket[post_id][1] += 1
+    else:
+        arr_to_basket[post_id] = [result_product, 1]
+    print(arr_to_basket)
     return redirect('/')
 
 
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
     all_articles = list(arr_to_basket.values())
-    if len(arr_to_basket) == 0:
+    products_all_articles = list(map(lambda x: x[0], all_articles))
+    count_all_articles = list(map(lambda x: x[1], all_articles))
+    print(all_articles, 111111111111111, count_all_articles, '!!!!!!!!!!!!!!!!!!', arr_to_basket)
+    print(all_articles[0][0])
+    if len(products_all_articles) == 0:
         return render_template('orders_false.html', title='Корзина')
     return render_template('basket.html', title='Корзина', products=all_articles)
 
