@@ -15,11 +15,9 @@ from werkzeug.utils import secure_filename
 import PIL
 from PIL import Image
 
-arr_category = ['Одежда', 'Обувь', 'Электроника', 'Здоровье', 'Дом', 'Книги', 'Ювелирные изделия'
-                'Спорт', 'Автотовары']
 
-product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Размер': '',
-                   'Цена': ''}
+arr_category = ['Электроника', 'Здоровье', 'Дом', 'Книги', 'Спорт', 'Автотовары']
+product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
 
 arr_to_basket = {}
 
@@ -33,26 +31,6 @@ login_manager.init_app(app)
 def load_user(user_id):
     sessions = db_session.create_session()
     return sessions.query(users.User).get(user_id)
-
-
-@app.route('/clothes', methods=['GET', 'POST'])
-def clothes():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'Одежда')
-        return render_template("product_display.html", products=products)
-    except:
-        return 'There was a problem deleting that task'
-
-
-@app.route('/shoes')
-def shoes():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'Обувь')
-        return render_template("product_display.html", products=products)
-    except:
-        return 'There was a problem deleting that task'
 
 
 @app.route('/electronics', methods=['GET', 'POST'])
@@ -75,6 +53,36 @@ def health():
         return 'There was a problem deleting that task'
 
 
+@app.route('/men', methods=['GET', 'POST'])
+def men():
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Мужчинам')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
+
+
+@app.route('/prize', methods=['GET', 'POST'])
+def prize():
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Подарки')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
+
+
+@app.route('/cat', methods=['GET', 'POST'])
+def cat():
+    try:
+        sessions = db_session.create_session()
+        products = sessions.query(product.Product).filter(product.Product.category == 'Зоотовары')
+        return render_template("product_display.html", products=products)
+    except:
+        return 'There was a problem deleting that task'
+
+
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     try:
@@ -90,17 +98,6 @@ def books():
     try:
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Книги')
-        return render_template("product_display.html", products=products)
-    except:
-        return 'There was a problem deleting that task'
-
-
-@app.route('/jewelry', methods=['GET', 'POST'])
-def jewelry():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category
-                                                          == 'Ювелирные изделия')
         return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
@@ -130,9 +127,7 @@ def car():
 def delete():
     try:
         sessions = db_session.create_session()
-        print(1)
         products = sessions.query(product.Product)
-        print(2)
         return render_template("product_display.html", products=products, title='Главная')
     except:
         return 'There was a problem deleting that task'
@@ -179,22 +174,18 @@ def add_product():
             img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
             img.save(image_location)
             product_add_one['Изображение'] = image_location
-            return render_template('size_product.html', form=form)
-
-        if form.size.data and product_add_one['Категория']:
-            product_add_one['Размер'] = form.size.data
             return render_template('price_product.html', form=form)
 
         if form.cost.data and product_add_one['Категория']:
-            print(int(form.cost.data))
             try:
                 trues = int(form.cost.data)
                 product_add_one['Цена'] = form.cost.data
                 products.name = product_add_one['Название']
+                print(product_add_one['Изображение'])
                 products.img = product_add_one['Изображение']
                 products.add_to_basket_id = '/add_in_basket/' + \
                                             str(len(sessions.query(product.Product.id).all()) + 1)
-
+                products.about = product_add_one['Описание']
                 products.cost = product_add_one['Цена']
                 products.category = product_add_one['Категория']
                 sessions.add(products)
@@ -213,6 +204,7 @@ def profile():
     user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
     return render_template('Profile.html', title='Авторизация',user=user)
 
+
 @app.route('/profile_update', methods=['GET', 'POST'])
 def profile_update():
     form = ProfileForm()
@@ -221,7 +213,9 @@ def profile_update():
             sessions = db_session.create_session()
             user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
             if user.password != form.password.data:
-                return render_template('profile_update.html', title='Обновление профиля', form=form, message='Не правильный пароль')
+                return render_template('profile_update.html', title='Редактирование профиля',
+                                       form=form,
+                                       message='Неправильный пароль!')
             if form.email.data != '':
                 user.email = form.email.data
             if form.password_new.data != '':
@@ -246,8 +240,8 @@ def register():
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Пароли не совпадают")
-        session = db_session.create_session()
-        if session.query(users.User).filter(users.User.email == form.email.data).first():
+        sessions = db_session.create_session()
+        if sessions.query(users.User).filter(users.User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -257,8 +251,8 @@ def register():
             password=form.password.data
         )
         user.set_password(form.password.data)
-        session.add(user)
-        session.commit()
+        sessions.add(user)
+        sessions.commit()
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -277,14 +271,6 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/browse_product/<int:post_id>/', methods=['GET', 'POST'])
-def browse_product(post_id):
-    sessions = db_session.create_session()
-    products = sessions.query(product.Product).filter(product.Product.id == post_id).first()
-    print(products)
-    return render_template("browse_product.html", products=products)
-
-
 @app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
 def add_in_basket(post_id):
     sessions = db_session.create_session()
@@ -296,6 +282,8 @@ def add_in_basket(post_id):
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
     all_articles = list(arr_to_basket.values())
+    if len(arr_to_basket) == 0:
+        return render_template('orders_false.html', title='Корзина')
     return render_template('basket.html', title='Корзина', products=all_articles)
 
 
@@ -331,15 +319,22 @@ def arrange():
             decor.email = form.email.data
             decor.products = ', '.join([str(i) for i in arr_to_basket])
             decor.address = form.address.data
+            for id_1 in arr_to_basket:
+                pro = sessions.query(product.Product).filter(product.Product.id == id_1).first()
+                if pro:
+                    sessions.delete(pro)
+                else:
+                    abort(404)
             sessions.add(decor)
             sessions.commit()
-        return redirect('/')
+            arr_to_basket.clear()
+        return render_template('orders_true.html', title='Оформление заказа')
     return render_template('orders.html', title='Оформление заказа', form=form)
 
 
 def main():
-    app.run(debug=True)
     db_session.global_init('db/blogs.sqlite')
+    app.run()
 
 
 if __name__ == '__main__':
