@@ -14,8 +14,8 @@
           <li class="fall"><a href="/"><img class='photos' src="static/img/menu.png"> ГЛАВНАЯ</a></li>
           <li class="fall"><a href="#contact"><img class='exit' src="static/img/message.png"> О НАС</a></li>
           <li class="fall" style="float:right"><a class="btn btn-success" href="/exit"><img class='exit' src="static/img/exit.png"> ВЫЙТИ</a></li>
-          <li class="fall" style="float:right"><a href="/profile"><img class='photo' src="static/img/contact.png"> МОЙ ПРОФИЛЬ</a></li>
-          <li class="fall" style="float:right"><a href="/basket"><img class='photo' src="static/img/bask.png"></a></li>
+          <li class="fall" style="float:right"><a href="/profile"><img class='photos' src="static/img/contact.png"> МОЙ ПРОФИЛЬ</a></li>
+          <li class="fall" style="float:right"><a href="/basket"><img class='photos' src="static/img/bask.png"></a></li>
         </ul>
     {% endif %}
     {% if not current_user.is_authenticated %}
@@ -155,8 +155,20 @@ a.boton1{
  a.boton1:hover{
   box-shadow:0px -5px 0 #088 inset;
 }
+   #footer {
+    position: fixed;
+    left: 0; bottom: 0;
+    padding: 10px;
+    background: #39b54a;
+    color: #fff;
+    width: 100%;
+   }
 </style>
 <body>
+<div id="footer">
+   &copy; Макарцев Денис, Кирилл Моисеев
+    <div align="right">Связь с нами: denis_makartsev@mail.ru</div>
+</div>
 <div id="sidebar">
 		<ul>
 			<li><a href="/electronics" class="boton1">Электроника</a></li>

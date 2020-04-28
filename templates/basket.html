@@ -49,7 +49,6 @@ img {
 	font-weight: 500;
 }
 .sdvig{
-margin-right: -70%;
 padding: 0 0 0 40%;
 }
 </style>
@@ -68,7 +67,7 @@ padding: 0 0 0 40%;
 						</p>
 						<p class="product-desc">{{item.about}}</p>
 						<p class="product-price"><h3>₽{{item[0].cost}} * {{item[1]}}</h3></p>
-                        <a href={{item.add_to_basket_id}} class="btn btn-danger">Удалить одну</a></div>
+                        <a href='/del_basket/{{item[0].id}}' class="btn btn-danger">Удалить одну</a></div>
                         <a href="/arrange" class="btn btn-success">Оформить заказ</a>
 					</div>
 				</div>

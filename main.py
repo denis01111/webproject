@@ -285,13 +285,11 @@ def add_in_basket(post_id):
 
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
+    if len(arr_to_basket) == 0:
+        return render_template('orders_false.html', title='Корзина')
     all_articles = list(arr_to_basket.values())
     products_all_articles = list(map(lambda x: x[0], all_articles))
     count_all_articles = list(map(lambda x: x[1], all_articles))
-    print(all_articles, 111111111111111, count_all_articles, '!!!!!!!!!!!!!!!!!!', arr_to_basket)
-    print(all_articles[0][0])
-    if len(products_all_articles) == 0:
-        return render_template('orders_false.html', title='Корзина')
     return render_template('basket.html', title='Корзина', products=all_articles)
 
 
@@ -305,6 +303,17 @@ def cookie_test():
         res = make_response('Вы пришли на эту страницу в первый раз за 2 года')
         res.set_cookie("visits_count", "1", max_age=60 * 60 * 24 * 365 * 2)
     return res
+
+
+@app.route('/del_basket/<int:post_id>', methods=['GET', 'POST'])
+def del_basket(post_id):
+    sessions = db_session.create_session()
+    result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    arr_to_basket[post_id][1] -= 1
+    if arr_to_basket[post_id][1] <= 0:
+        del arr_to_basket[post_id]
+    all_articles = list(arr_to_basket.values())
+    return redirect('/basket')
 
 
 @app.route('/session_test')
