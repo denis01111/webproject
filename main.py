@@ -17,8 +17,7 @@ from PIL import Image
 
 
 arr_category = ['Электроника', 'Здоровье', 'Дом', 'Книги', 'Спорт', 'Автотовары']
-product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': '',
-                   'Количество': ''}
+product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
 
 arr_to_basket = {}
 
@@ -175,10 +174,6 @@ def add_product():
             img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
             img.save(image_location)
             product_add_one['Изображение'] = image_location
-            return render_template('count_product.html', form=form)
-
-        if form.count.data and product_add_one['Категория']:
-            product_add_one['Количество'] = form.count.data
             return render_template('price_product.html', form=form)
 
         if form.cost.data and product_add_one['Категория']:
