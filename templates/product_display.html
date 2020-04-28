@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
 .photo{
-
+margin-right: 88%;
+margin-top: 2%
 }
 .column{
   width: 100%;
@@ -15,7 +16,7 @@
 }
 .col{
   width: 60%;
-  min-height: 10vh;
+  min-height: 8vh;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -24,21 +25,26 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 5%;
+  padding: 1%;
   background: #ebeeef;
 }
 .bt{
 align: right;
+}
+.cs{
+margin-left: -65%;
+margin-top: -25%;
 }
 </style>
 {% for item in products %}
 <br>
 <div class="column">
     <div class="col">
+        <div style="margin-right: 88%; margin-top: -2%"><h2>{{item.name}}</h2></div>
         <div class="photo"><img src={{item.img}}></div>
-        {{item.about}}
-        {{item.name}}, цена - {{item.cost}} руб.
-        <a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в козину</a><br>
+        <div style="margin-right: 20%; margin-top: -36%;"><h3>Описание</h3><br>{{item.about}}</div>
+        <div style="margin-left: 84%; margin-top: -30%"><h1>{{item.cost}}</h1></div>
+        <div style="margin-left: 84%;"><a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в козину</a></div>
 </div>
 </div>
 {% endfor %}

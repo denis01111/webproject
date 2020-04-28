@@ -24,12 +24,12 @@
           <li class="fall"><a href="#contact"><img class='exit' src="static/img/message.png"> О НАС</a></li>
           <li class="fall" style="float:right"><a href="/register"><img class="exit" src="static/img/add_persons.png"> РЕГИСТРАЦИЯ</a></li>
           <li class="fall" style="float:right"><a href="/login"><img class="exit" src="static/img/logins.png"> АВТОРИЗАЦИЯ</a></li>
-          <li class="fall" style="float:right"><a href="/basket"><img class='photo' src="static/img/bask.png"></a></li>
+          <li class="fall" style="float:right"><a href="/basket"><img class='photos' src="static/img/bask.png"></a></li>
         </ul>
     {% endif %}
     {% if current_user.is_authenticated and current_user.name == 'admin' %}
         <ul class="fail">
-          <li class="fall"><a href="/"><img class='photo' src="static/img/menu.png"> ГЛАВНАЯ</a></li>
+          <li class="fall"><a href="/"><img class='photos' src="static/img/menu.png"> ГЛАВНАЯ</a></li>
           <li class="fall"><a href="#contact"><img class='exit' src="static/img/message.png"> О НАС</a></li>
           <li class="fall" style="float:right"><a href="/add_product"><img class="exit" src="static/img/add.png"> ДОБАВИТЬ ТОВАР</a></li>
           <li class="fall" style="float:right"><a href="/exit"><img class='exit' src="static/img/exit.png"> ВЫЙТИ</a></li>
@@ -38,7 +38,7 @@
 
 </head>
 <style>
-.photo{
+.photos{
 margin-top: -10%;
 }
 .exit{
