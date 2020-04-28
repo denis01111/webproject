@@ -1,18 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Записи в блоге</h1>
-{% for item in products %}
-<div class="col-md6 border rounded">
-    <div>
-        <img src={{item.img}}>
-    </div>
-    <div>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.photo{
 
+}
+.column{
+  width: 100%;
+  margin: 0 auto;
+}
+.col{
+  width: 60%;
+  min-height: 10vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+  background: #ebeeef;
+}
+.bt{
+align: right;
+}
+</style>
+{% for item in products %}
+<br>
+<div class="column">
+    <div class="col">
+        <div class="photo"><img src={{item.img}}></div>
+        {{item.about}}
         {{item.name}}, цена - {{item.cost}} руб.
-        <a href={{item.add_to_basket_id}}><button>Добавить в козину</button></a>
-        <a href='/browse_product/{{item.id}}'><button>Просмотреть</button></a>
-    </div>
+        <a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в козину</a><br>
+</div>
 </div>
 {% endfor %}
 {% endblock %}
