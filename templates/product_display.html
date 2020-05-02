@@ -51,7 +51,19 @@
 <ul class="products clearfix">
 {% for item in products %}
 	<li class="product-wrapper">
-	<a class="product"><img src={{item.img}}></a>
+		<div class="product">
+			<img src={{item.img}}>
+		<a>{{item.name}}</a>
+		<a>{{item.about}}</a>
+		<a>{{item.cost}}</a>
+		<a>{{item.count}}</a>
+		{% if current_user.is_authenticated and current_user.name != 'admin' %}
+			<a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в корзину</a>
+		{% endif %}
+		{% if current_user.is_authenticated and current_user.name == 'admin' %}
+			<a href="/del_basket/{{item.id}}" class="btn btn-danger">Удалить</a>
+		{% endif %}
+		</div>
 	</li>
 	{% if loop.index % 3 == 0 %}
 	<ul class="products clearfix">
