@@ -46,14 +46,14 @@
                     </div>
                 {% endfor %}
             {{ form.password.label }}<br>
-            {{ form.password(class="form-control", type="password", placeholder="Старый пароль") }}<br>
+{{ form.password(class="form-control", type="password", placeholder="Старый пароль") }}<br>
                 {% for error in form.password.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
                 {% endfor %}
             {{ form.password_new.label }}<br>
-            {{ form.password_new(class="form-control", type="password", placeholder="Новый пароль") }}<br>
+{{ form.password_new(class="form-control", type="password", placeholder="Новый пароль") }}<br>
                 {% for error in form.password_new.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
@@ -69,5 +69,7 @@
         <p>{{ form.submit(type="submit", class="btn btn-success") }}</p>
         <div>{{ message }}</div>
     </form>
+    </div>
+        </div>
     </div>
 {% endblock %}

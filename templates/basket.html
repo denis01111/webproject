@@ -64,7 +64,8 @@ padding: 0 0 0 40%;
     <td align="center"><img src="{{item[0].img}}"></td>
     <td align="center">{{item[0].name}}</td>
 	<td align="center" style="font-size: 20px;">₽{{item[0].cost}}</td>
-	<td align="center" style="font-size: 20px;">{{item[1]}} <br> <a href='/del_basket/{{item[0].id}}' class="btn btn-danger">Удалить одну</a></div></td>
+	<td align="center" style="font-size: 20px;">{{item[1]}} <br>
+        <a href='/del_basket/{{item[0].id}}' class="btn btn-danger">Удалить одну</a></div></td>
 </tr>
 {% endfor %}
 </table>

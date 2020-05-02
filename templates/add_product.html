@@ -30,17 +30,13 @@
     {{ form.csrf_token }}
     <p>
         {{ form.category.label }}<br>
-
         {{ form.category(class="form-control") }}<br>
-
         {{ form.submit(type="submit", class="btn btn-success") }}<br>
-
-
         {% for error in form.category.errors %}
     <p content="alert alert-danger" role="alert">
         {{ error }}
     {% endfor %}
-        </p>
+    </p>
     {{ message }}
 </div>
 </form>

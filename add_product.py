@@ -9,14 +9,15 @@ class AddProductForm(FlaskForm):
     name = StringField("Название прордукта", validators=[DataRequired()])
     cost = StringField("Цена", validators=[DataRequired()])
     img = FileField("Фотография", validators=[DataRequired()])
-    category = SelectField("Категория", validators=[DataRequired()], choices=[('Электроника', 'Электроника'),
-                                                                              ('Дом', 'Дом'),
-                                                                              ('Книги', 'Книги'),
-                                                                              ('Мужчинам', 'Мужчинам'),
-                                                                              ('Подарки', 'Подарки'),
-                                                                              ('Зоотовары', 'Зоотовары'),
-                                                                              ('Спорт', 'Спорт'),
-                                                                              ('Автотовары', 'Автотовары')])
+    category = SelectField("Категория", validators=[DataRequired()],
+                           choices=[('Электроника', 'Электроника'),
+                                    ('Дом', 'Дом'),
+                                    ('Книги', 'Книги'),
+                                    ('Мужчинам', 'Мужчинам'),
+                                    ('Подарки', 'Подарки'),
+                                    ('Зоотовары', 'Зоотовары'),
+                                    ('Спорт', 'Спорт'),
+                                    ('Автотовары', 'Автотовары')])
     count = StringField("Количество товара", validators=[DataRequired()])
     about = StringField("Описание товара", validators=[DataRequired()])
     submit = SubmitField('Добавить')

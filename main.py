@@ -19,12 +19,12 @@ from flask_ngrok import run_with_ngrok
 
 arr_category = ['Электроника', 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт',
                 'Автотовары']
-product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
+product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': '',
+                   'Количество': ''}
 
 arr_to_basket = {}
 
 app = Flask(__name__)
-run_with_ngrok(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -40,7 +40,8 @@ def load_user(user_id):
 def electronics():
     try:
         sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'Электроника')
+        products = sessions.query(product.Product).filter(product.Product.category
+                                                          == 'Электроника')
         return render_template("product_display.html", products=products)
     except:
         return 'There was a problem deleting that task'
@@ -148,7 +149,6 @@ def add_product():
     if request.method == 'POST':
         sessions = db_session.create_session()
         products = product.Product()
-        print(form.category.data)
         if form.category.data not in arr_category and product_add_one['Категория'] == '':
             return render_template('add_product.html', title='Добавление продукта',
                                    form=form,
@@ -167,15 +167,15 @@ def add_product():
             return render_template('img_product.html', form=form)
 
         if form.img.data and product_add_one['Категория']:
-            a = 'static/img/'
-            profile = request.files['img']
-            image_location = a + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
-            profile.save(image_location)
-            baseheight = 100
+            names = 'static/img/'
+            profiles = request.files['img']
+            image_location = names + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
+            profiles.save(image_location)
+            base_height = 100
             img = Image.open(image_location)
-            hpercent = (baseheight / float(img.size[1]))
-            wsize = int((float(img.size[0]) * float(hpercent)))
-            img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
+            cent = (base_height / float(img.size[1]))
+            width_size = int((float(img.size[0]) * float(cent)))
+            img = img.resize((width_size, base_height), PIL.Image.ANTIALIAS)
             img.save(image_location)
             product_add_one['Изображение'] = image_location
             return render_template('count_product.html', form=form)
@@ -344,6 +344,7 @@ def session_test():
     session['visits_count'] = session.get('visits_count', 0) + 1
     return f"Вы зашли на страницу {session['visits_count']} раз!"
 
+
 @app.route('/del_product_admin/<int:post_id>', methods=['GET', 'POST'])
 def del_product_admin(post_id):
     sessions = db_session.create_session()
@@ -354,7 +355,6 @@ def del_product_admin(post_id):
     else:
         abort(404)
     return redirect('/')
-
 
 
 @app.route('/arrange', methods=['GET', 'POST'])
@@ -370,19 +370,18 @@ def arrange():
             decor.email = form.email.data
             decor.products = ', '.join([str(i) for i in arr_to_basket])
             decor.address = form.address.data
-            print(arr_to_basket.values())
             for id_1 in arr_to_basket.values():
-                pro = sessions.query(product.Product).filter(product.Product.id == id_1[0].id).first()
+                pro = sessions.query(product.Product).filter(product.Product.id
+                                                             == id_1[0].id).first()
                 if pro:
-                    print(int(pro.count), id_1[1], pro.name, pro.id)
-                    a = int(pro.count) - id_1[1]
-                    if a < 0:
+                    counts = int(pro.count) - id_1[1]
+                    if counts < 0:
                         return render_template('orders.html', title='Оформление заказа', form=form,
                                                message='Такого колличества {} нет в наличии.'
                                                        ' Уменьшите колличество или выберите'
                                                        ' другой товар'.format(pro.name))
                     else:
-                        pro.count = a
+                        pro.count = counts
                 else:
                     return render_template('orders.html', title='Оформление заказа', form=form,
                                            message='Товар не найден')
@@ -408,9 +407,6 @@ def error_login_in():
 def main():
     db_session.global_init('db/blogs.sqlite')
     app.run()
-
-
-
 
 
 if __name__ == '__main__':

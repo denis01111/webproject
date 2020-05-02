@@ -30,12 +30,8 @@
     {{ form.csrf_token }}
     <p>
         {{ form.cost.label }}<br>
-
         {{ form.cost(class="form-control") }}<br>
-
         {{ form.submit(type="submit", class="btn btn-success") }}<br>
-
-
         {% for error in form.cost.errors %}
     <p content="alert alert-danger" role="alert">
         {{ error }}
