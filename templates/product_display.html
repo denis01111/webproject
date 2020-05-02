@@ -35,7 +35,7 @@
 	border-radius: 3px;
 	position: relative;
 	background: #fff;
-	margin: 20px 60px 60px 210px;
+	margin: 20px 60px 60px 205px;
 	text-decoration: none;
 	color: #474747;
 	z-index: 0;
@@ -51,10 +51,11 @@
 <ul class="products clearfix">
 {% for item in products %}
 	<li class="product-wrapper">
-		<a href="" class="product"></a>
+	<a class="product"><img src={{item.img}}></a>
 	</li>
 	{% if loop.index % 3 == 0 %}
-	<br>
+	<ul class="products clearfix">
+	</ul>
 	{% endif %}
 {% endfor %}
 </ul>
