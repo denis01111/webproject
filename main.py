@@ -178,7 +178,17 @@ def add_product():
             img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
             img.save(image_location)
             product_add_one['Изображение'] = image_location
-            return render_template('price_product.html', form=form)
+            return render_template('count_product.html', form=form)
+
+        if form.count.data and product_add_one['Категория']:
+            try:
+                trues = int(form.count.data)
+                product_add_one['Количество'] = form.count.data
+                return render_template('price_product.html', form=form)
+            except:
+                return render_template('count_product.html', title='Добавление продукта',
+                                       form=form,
+                                       message="Вы ввели некоректные данные!")
 
         if form.cost.data and product_add_one['Категория']:
             try:
@@ -192,6 +202,7 @@ def add_product():
                 products.about = product_add_one['Описание']
                 products.cost = product_add_one['Цена']
                 products.category = product_add_one['Категория']
+                products.count = product_add_one['Количество']
                 sessions.add(products)
                 sessions.commit()
             except:
