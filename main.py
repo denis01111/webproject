@@ -386,6 +386,7 @@ def error_login_in():
     products = sessions.query(product.Product)
     return render_template('product_display.html', message='Вы не авторизованы!', products=products)
 
+
 def main():
     db_session.global_init('db/blogs.sqlite')
     app.run()
