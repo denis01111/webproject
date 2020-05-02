@@ -14,14 +14,17 @@ import os
 from werkzeug.utils import secure_filename
 import PIL
 from PIL import Image
+from flask import Flask
+from flask_ngrok import run_with_ngrok
 
 
-arr_category = ['Электроника', 'Здоровье', 'Дом', 'Книги', 'Спорт', 'Автотовары']
+arr_category = ['Электроника', 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт', 'Автотовары']
 product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
 
 arr_to_basket = {}
 
 app = Flask(__name__)
+run_with_ngrok(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -145,6 +148,7 @@ def add_product():
     if request.method == 'POST':
         sessions = db_session.create_session()
         products = product.Product()
+        print(form.category.data)
         if form.category.data not in arr_category and product_add_one['Категория'] == '':
             return render_template('add_product.html', title='Добавление продукта',
                                    form=form,
@@ -236,6 +240,14 @@ def profile_update():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        if len(form.password.data) < 8:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Короткий пароль!")
+        if 'qwerty' in form.password.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароль содержит всем известную комбинацию 'qwerty'!")
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
                                    form=form,

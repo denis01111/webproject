@@ -1,22 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<p>><img src={{user.img}}></p>
-<p>{{user.name}}</p>
-<p>
+<style>
+.login{
+  width: 100%;
+  margin: 0 auto;
+}
+.log{
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #ebeeef;
+}
+</style>
+<div class="login">
+    <div class="log">
+    <p><img src='static/img/no_img_profile.png'></p>
+    {{user.name}}
     {% if user.telephone %}
         <p>Телефон - {{user.telephone}}</p>
     {% else %}
         <p>Телефон не указан</p>
     {% endif%}
-</p>
-<p>Электронная почта - {{user.email}}</p>
-<p>Вы с нами с {{user.created_date}}</p>
-<p>
+    Электронная почта - {{user.email}}
+    Вы с нами с {{user.created_date}}
     {% if user.city %}
         <p>Город - {{user.city}}</p>
     {% else %}
         <p>Город не указан</p>
     {% endif%}
-</p>
-<a href='/profile_update'><button>Изменить данные</button></a>
+<a href='/profile_update' class="btn btn-success">Изменить данные</a>
+        </div>
+    </div>
 {% endblock %}
