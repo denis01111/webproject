@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,7 +35,6 @@
 <div class="wrapper">
 <div class="login">
     <div class="log">
-            <img class='photo' src='static/img/login.jpg'>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}

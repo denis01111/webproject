@@ -17,8 +17,8 @@ from PIL import Image
 from flask import Flask
 from flask_ngrok import run_with_ngrok
 
-
-arr_category = ['Электроника', 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт', 'Автотовары']
+arr_category = ['Электроника', 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт',
+                'Автотовары']
 product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
 
 arr_to_basket = {}
@@ -195,7 +195,6 @@ def add_product():
                 trues = int(form.cost.data)
                 product_add_one['Цена'] = form.cost.data
                 products.name = product_add_one['Название']
-                print(product_add_one['Изображение'])
                 products.img = product_add_one['Изображение']
                 products.add_to_basket_id = '/add_in_basket/' + \
                                             str(len(sessions.query(product.Product.id).all()) + 1)
@@ -217,7 +216,7 @@ def add_product():
 def profile():
     sessions = db_session.create_session()
     user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
-    return render_template('Profile.html', title='Авторизация',user=user)
+    return render_template('Profile.html', title='Авторизация', user=user)
 
 
 @app.route('/profile_update', methods=['GET', 'POST'])
@@ -243,7 +242,8 @@ def profile_update():
             sessions.commit()
             return render_template('profile.html', title='Обновление профиля', form=form,
                                    message='Данные успешно изменены', user=user)
-        return render_template('profile_update.html', title='Обновление профиля', form=form, message='')
+        return render_template('profile_update.html', title='Обновление профиля', form=form,
+                               message='')
     return render_template('profile_update.html', title='Авторизация', form=form, message='')
 
 
@@ -283,7 +283,6 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
@@ -302,7 +301,6 @@ def add_in_basket(post_id):
         arr_to_basket[post_id][1] += 1
     else:
         arr_to_basket[post_id] = [result_product, 1]
-    print(arr_to_basket)
     return redirect('/')
 
 
@@ -359,18 +357,34 @@ def arrange():
             decor.email = form.email.data
             decor.products = ', '.join([str(i) for i in arr_to_basket])
             decor.address = form.address.data
-            for id_1 in arr_to_basket:
-                pro = sessions.query(product.Product).filter(product.Product.id == id_1).first()
+            print(arr_to_basket.values())
+            for id_1 in arr_to_basket.values():
+                pro = sessions.query(product.Product).filter(product.Product.id == id_1[0].id).first()
                 if pro:
-                    sessions.delete(pro)
+                    print(int(pro.count), id_1[1], pro.name, pro.id)
+                    a = int(pro.count) - id_1[1]
+                    if a < 0:
+                        return render_template('orders.html', title='Оформление заказа', form=form,
+                                               message='Такого колличества {} нет в наличии.'
+                                                       ' Уменьшите колличество или выберите'
+                                                       ' другой товар'.format(pro.name))
+                    else:
+                        pro.count = a
                 else:
-                    abort(404)
+                    return render_template('orders.html', title='Оформление заказа', form=form,
+                                           message='Товар не найден')
             sessions.add(decor)
             sessions.commit()
             arr_to_basket.clear()
         return render_template('orders_true.html', title='Оформление заказа')
     return render_template('orders.html', title='Оформление заказа', form=form)
 
+
+@app.route('/error_login_in')
+def error_login_in():
+    sessions = db_session.create_session()
+    products = sessions.query(product.Product)
+    return render_template('product_display.html', message='Вы не авторизованы!', products=products)
 
 def main():
     db_session.global_init('db/blogs.sqlite')
