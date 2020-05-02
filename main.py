@@ -261,6 +261,7 @@ def register():
             name=form.name.data,
             email=form.email.data,
             password=form.password.data
+            img='static/img/no_img_profile'
         )
         user.set_password(form.password.data)
         sessions.add(user)
