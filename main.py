@@ -343,6 +343,18 @@ def session_test():
     session['visits_count'] = session.get('visits_count', 0) + 1
     return f"Вы зашли на страницу {session['visits_count']} раз!"
 
+@app.route('/del_product_admin/<int:post_id>', methods=['GET', 'POST'])
+def del_product_admin(post_id):
+    sessions = db_session.create_session()
+    result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    if result_product:
+        sessions.delete(result_product)
+        sessions.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
 
 @app.route('/arrange', methods=['GET', 'POST'])
 def arrange():

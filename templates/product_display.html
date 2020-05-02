@@ -61,7 +61,7 @@
 			<a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в корзину</a>
 		{% endif %}
 		{% if current_user.is_authenticated and current_user.name == 'admin' %}
-			<a href="/del_basket/{{item.id}}" class="btn btn-danger">Удалить</a>
+			<a href="/del_product_admin/{{item.id}}" class="btn btn-danger">Удалить</a>
 		{% endif %}
 		</div>
 	</li>
