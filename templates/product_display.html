@@ -39,7 +39,7 @@
 	text-decoration: none;
 	color: #474747;
 	z-index: 0;
-	height: 300px;
+	height: 400px;
 	width: 300px;
 }
 .products {
@@ -47,18 +47,27 @@
 	margin: 0 -20px 0 0;
 	padding: 0;
 }
+.product p {
+	position: relative;
+	margin: 0;
+	padding: 10px;
+}
 </style>
+        <div style="font-size: 25px;">{{ message }}</div>
 <ul class="products clearfix">
 {% for item in products %}
 	<li class="product-wrapper">
 		<div class="product">
 			<img src={{item.img}}>
-		<a>{{item.name}}</a>
-		<a>{{item.about}}</a>
-		<a>{{item.cost}}</a>
-		<a>{{item.count}}</a>
+			<p> {{item.name}}</p>
+			<p>{{item.about}}</p>
+			<p>{{item.cost}}</p>
+			<p>{{item.count}}</p>
 		{% if current_user.is_authenticated and current_user.name != 'admin' %}
 			<a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в корзину</a>
+		{% endif %}
+		{% if not current_user.is_authenticated %}
+			<a href='/error_login_in' class="btn btn-success">Добавить в корзину</a>
 		{% endif %}
 		{% if current_user.is_authenticated and current_user.name == 'admin' %}
 			<a href="/del_product_admin/{{item.id}}" class="btn btn-danger">Удалить</a>

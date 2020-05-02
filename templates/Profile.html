@@ -2,41 +2,34 @@
 {% block content %}
 <style>
 .login{
-  width: 100%;
+  width: 50%;
   margin: 0 auto;
 }
-.log{
-  width: 100%;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  background: #ebeeef;
+.product p {
+	position: relative;
+	margin: 0;
+	padding: 10px;
 }
 </style>
 <div class="login">
-    <div class="log">
-    <p><img src='static/img/no_img_profile.png'></p>
-    {{user.name}}
+    <div style="background: #ebeeef;">
+        <div class="product">
+                <img style="padding: 10px;" src='static/img/no_img_profile.png'><br>
+            <p>Имя - {{user.name}}</p>
     {% if user.telephone %}
         <p>Телефон - {{user.telephone}}</p>
     {% else %}
         <p>Телефон не указан</p>
     {% endif%}
-    Электронная почта - {{user.email}}
-    Вы с нами с {{user.created_date}}
+            <p>Почта - {{user.email}}</p>
+            <p>Зарегистрирован с {{user.created_date}}</p>
     {% if user.city %}
         <p>Город - {{user.city}}</p>
     {% else %}
         <p>Город не указан</p>
     {% endif%}
-<a href='/profile_update' class="btn btn-success">Изменить данные</a>
+            <p><a href='/profile_update' class="btn btn-success">Изменить данные</a></p>
+        </div>
         </div>
     </div>
 {% endblock %}

@@ -297,6 +297,7 @@ def login():
 def add_in_basket(post_id):
     sessions = db_session.create_session()
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
+    print(post_id)
     if post_id in arr_to_basket.keys():
         arr_to_basket[post_id][1] += 1
     else:
@@ -392,6 +393,11 @@ def arrange():
     return render_template('orders.html', title='Оформление заказа', form=form)
 
 
+@app.route('/about_our')
+def about_our():
+    return render_template('about_our.html', title='О нас')
+
+
 @app.route('/error_login_in')
 def error_login_in():
     sessions = db_session.create_session()
@@ -402,6 +408,9 @@ def error_login_in():
 def main():
     db_session.global_init('db/blogs.sqlite')
     app.run()
+
+
+
 
 
 if __name__ == '__main__':

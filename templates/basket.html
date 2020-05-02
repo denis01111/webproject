@@ -52,26 +52,22 @@ img {
 padding: 0 0 0 40%;
 }
 </style>
+<table border="1" width="100%" cellpadding="5" style="background: #ebeeef">
+   <tr>
+	<th align="center">Фотография</th>
+    <th align="center">Название</th>
+    <th>Цена</th>
+	<th>Количество</th>
+</tr>
 {% for item in products %}
-<br>
-<div class="sdvig">
-		<div class="col-md-8 products">
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="product">
-						<div class="product-img">
-							<a><img src={{item[0].img}} alt=""></a>
-						</div>
-						<p class="product-title">
-							<a>{{item[0].name}}</a>
-						</p>
-						<p class="product-desc">{{item.about}}</p>
-						<p class="product-price"><h3>₽{{item[0].cost}} * {{item[1]}}</h3></p>
-                        <a href='/del_basket/{{item[0].id}}' class="btn btn-danger">Удалить одну</a></div>
-                        <a href="/arrange" class="btn btn-success">Оформить заказ</a>
-					</div>
-				</div>
-            </div>
-        </div>
+<tr>
+    <td align="center"><img src="{{item[0].img}}"></td>
+    <td align="center">{{item[0].name}}</td>
+	<td align="center" style="font-size: 20px;">₽{{item[0].cost}}</td>
+	<td align="center" style="font-size: 20px;">{{item[1]}} <br> <a href='/del_basket/{{item[0].id}}' class="btn btn-danger">Удалить одну</a></div></td>
+</tr>
 {% endfor %}
+</table>
+<br>
+<a href="/arrange" class="btn btn-success">Оформить заказ</a>
 {% endblock %}
