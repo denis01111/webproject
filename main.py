@@ -166,6 +166,7 @@ def add_product():
             names = 'static/img/'
             profiles = request.files['img']
             image_location = names + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
+
             profiles.save(image_location)
             base_height = 100
             img = Image.open(image_location)
@@ -178,8 +179,8 @@ def add_product():
 
         if form.count.data:
             try:
-                trues = int(str(form.count.data))
-                product_add_one['Количество'] = str(form.count.data)
+                trues = int(form.count.data)
+                product_add_one['Количество'] = form.count.data
                 return render_template('price_product.html', form=form)
             except:
                 return render_template('count_product.html', title='Добавление продукта',
@@ -187,7 +188,9 @@ def add_product():
                                        message="Вы ввели некоректно колличество!")
 
         if form.cost.data:
-                product_add_one['Цена'] = str(form.cost.data)
+            try:
+                trues = int(form.cost.data)
+                product_add_one['Цена'] = form.cost.data
                 products.name = product_add_one['Название']
                 products.img = product_add_one['Изображение']
                 products.add_to_basket_id = '/add_in_basket/' + \
@@ -199,6 +202,10 @@ def add_product():
                 sessions.add(products)
                 sessions.commit()
                 product_add_one.clear()
+            except:
+                return render_template('price_product.html', title='Добавление продукта',
+                                       form=form,
+                                       message="Вы ввели некоректно цену")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 
