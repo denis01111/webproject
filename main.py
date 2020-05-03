@@ -151,7 +151,6 @@ def add_product():
         db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = product.Product()
-        print(form.category.data)
         if form.category.data not in arr_category and product_add_one['Категория'] == '':
             return render_template('add_product.html', title='Добавление продукта',
                                    form=form,
@@ -306,21 +305,41 @@ def add_in_basket(post_id):
     db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
-    print(post_id)
-    if post_id in arr_to_basket.keys():
-        arr_to_basket[post_id][1] += 1
+    result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
+    if result_user.id_product == None:
+        list_basket_id_product = []
+        list_basket_count_product =[]
     else:
-        arr_to_basket[post_id] = [result_product, 1]
+        list_basket_id_product = str(result_user.id_product).split()
+        list_basket_count_product = str(result_user.count_product).split()
+    if str(post_id) in list_basket_id_product:
+        list_basket_count_product[list_basket_id_product.index(str(post_id))] = str(int(list_basket_count_product[list_basket_id_product.index(str(post_id))]) + 1)
+        result_user.count_product = ' '.join(list_basket_count_product)
+    else:
+        list_basket_id_product.append(str(post_id))
+        list_basket_count_product.append('1')
+        result_user.count_product = ' '.join(list_basket_count_product)
+        result_user.id_product = ' '.join(list_basket_id_product)
+    sessions.commit()
     return redirect('/')
 
 
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
-    if len(arr_to_basket) == 0:
+    db_session.global_init('db/blogs.sqlite')
+    sessions = db_session.create_session()
+    result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
+    if result_user.id_product == None or len(str(result_user.id_product).split()) == 0:
         return render_template('orders_false.html', title='Корзина')
-    all_articles = list(arr_to_basket.values())
-    products_all_articles = list(map(lambda x: x[0], all_articles))
-    count_all_articles = list(map(lambda x: x[1], all_articles))
+    else:
+        list_basket_id_product = str(result_user.id_product).split()
+        list_basket_count_product = str(result_user.count_product).split()
+    list_product = []
+    for i in list_basket_id_product:
+        list_product.append(sessions.query(product.Product).filter(
+            product.Product.id == i).first())
+    all_articles = list(map(lambda x, y: [x, y], list_product, list_basket_count_product))
+    print(all_articles)
     return render_template('basket.html', title='Корзина', products=all_articles)
 
 
@@ -338,13 +357,33 @@ def cookie_test():
 
 @app.route('/del_basket/<int:post_id>', methods=['GET', 'POST'])
 def del_basket(post_id):
+    print(0)
     db_session.global_init('db/blogs.sqlite')
+    print(3)
     sessions = db_session.create_session()
+    print(4)
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
-    arr_to_basket[post_id][1] -= 1
-    if arr_to_basket[post_id][1] <= 0:
-        del arr_to_basket[post_id]
-    all_articles = list(arr_to_basket.values())
+    print(5)
+    result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
+    if result_user.id_product == None:
+        list_basket_id_product = []
+        list_basket_count_product =[]
+    else:
+        print(6)
+        list_basket_id_product = str(result_user.id_product).split()
+        print(7)
+        list_basket_count_product = str(result_user.count_product).split()
+        print(8)
+        index = list_basket_id_product.index(str(post_id))
+        print(1)
+        list_basket_count_product[index] = str(int(list_basket_count_product[index]) - 1)
+        print(2)
+    if int(list_basket_count_product[index]) <= 0:
+        del list_basket_id_product[index]
+        del list_basket_count_product[index]
+    result_user.count_product = ' '.join(list_basket_count_product)
+    result_user.id_product = ' '.join(list_basket_id_product)
+    sessions.commit()
     return redirect('/basket')
 
 
@@ -380,28 +419,35 @@ def arrange():
             decor.surname = form.surname.data
             decor.telephone = form.telephone.data
             decor.email = form.email.data
-            decor.products = ', '.join([str(i) for i in arr_to_basket])
+            result_user = sessions.query(users.User).filter(
+                users.User.id == current_user.id).first()
+            if result_user.id_product == None:
+                list_basket_id_product = []
+            else:
+                list_basket_id_product = str(result_user.id_product).split()
+                list_basket_count_product = str(result_user.count_product).split()
+                decor.products = result_user.id_product
             decor.address = form.address.data
-            print(arr_to_basket.values())
-            for id_1 in arr_to_basket.values():
-                pro = sessions.query(product.Product).filter(
-                    product.Product.id == id_1[0].id).first()
-                if pro:
-                    print(int(pro.count), id_1[1], pro.name, pro.id)
-                    a = int(pro.count) - id_1[1]
-                    if a < 0:
-                        return render_template('orders.html', title='Оформление заказа', form=form,
-                                               message='Такого колличества {} нет в наличии.'
-                                                       ' Уменьшите колличество или выберите'
-                                                       ' другой товар'.format(pro.name))
+            if result_user.id_product != None:
+                for id_1 in result_user.id_product.split():
+                    pro = sessions.query(product.Product).filter(
+                        product.Product.id == id_1).first()
+                    if pro:
+                        a = int(pro.count) - int(list_basket_count_product[list_basket_id_product.index(id_1)])
+                        if a < 0:
+                            return render_template('orders.html', title='Оформление заказа', form=form,
+                                                   message='Такого колличества {} нет в наличии.'
+                                                           ' Уменьшите колличество или выберите'
+                                                           ' другой товар'.format(pro.name))
+                        else:
+                            pro.count = a
                     else:
-                        pro.count = a
-                else:
-                    return render_template('orders.html', title='Оформление заказа', form=form,
-                                           message='Товар не найден')
+                        return render_template('orders.html', title='Оформление заказа', form=form,
+                                               message='Товар не найден')
+            result_user.id_product = ''
+            result_user.count_product = ''
             sessions.add(decor)
             sessions.commit()
-            arr_to_basket.clear()
         return render_template('orders_true.html', title='Оформление заказа')
     return render_template('orders.html', title='Оформление заказа', form=form)
 
