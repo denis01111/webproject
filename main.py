@@ -184,7 +184,7 @@ def add_product():
             except:
                 return render_template('count_product.html', title='Добавление продукта',
                                        form=form,
-                                       message="Вы ввели некоректные данные!")
+                                       message="Вы ввели некоректно колличество!")
 
         if form.cost.data:
             try:
@@ -204,7 +204,7 @@ def add_product():
             except:
                 return render_template('price_product.html', title='Добавление продукта',
                                        form=form,
-                                       message="Вы ввели некоректные данные!")
+                                       message="Вы ввели некоректно цену")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 
