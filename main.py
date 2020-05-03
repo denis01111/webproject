@@ -339,7 +339,6 @@ def basket():
         list_product.append(sessions.query(product.Product).filter(
             product.Product.id == i).first())
     all_articles = list(map(lambda x, y: [x, y], list_product, list_basket_count_product))
-    print(all_articles)
     return render_template('basket.html', title='Корзина', products=all_articles)
 
 
@@ -357,27 +356,18 @@ def cookie_test():
 
 @app.route('/del_basket/<int:post_id>', methods=['GET', 'POST'])
 def del_basket(post_id):
-    print(0)
     db_session.global_init('db/blogs.sqlite')
-    print(3)
     sessions = db_session.create_session()
-    print(4)
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
-    print(5)
     result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
     if result_user.id_product == None:
         list_basket_id_product = []
         list_basket_count_product =[]
     else:
-        print(6)
         list_basket_id_product = str(result_user.id_product).split()
-        print(7)
         list_basket_count_product = str(result_user.count_product).split()
-        print(8)
         index = list_basket_id_product.index(str(post_id))
-        print(1)
         list_basket_count_product[index] = str(int(list_basket_count_product[index]) - 1)
-        print(2)
     if int(list_basket_count_product[index]) <= 0:
         del list_basket_id_product[index]
         del list_basket_count_product[index]
