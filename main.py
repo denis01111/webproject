@@ -177,22 +177,34 @@ def add_product():
             return render_template('count_product.html', form=form)
 
         if form.count.data:
-            product_add_one['Количество'] = form.count.data
-            return render_template('price_product.html', form=form)
+            try:
+                trues = int(str(form.count.data))
+                product_add_one['Количество'] = str(form.count.data)
+                return render_template('price_product.html', form=form)
+            except:
+                return render_template('count_product.html', title='Добавление продукта',
+                                       form=form,
+                                       message="Вы ввели некоректно колличество!")
 
         if form.cost.data:
-            product_add_one['Цена'] = form.cost.data
-            products.name = product_add_one['Название']
-            products.img = product_add_one['Изображение']
-            products.add_to_basket_id = '/add_in_basket/' + \
-                                        str(len(sessions.query(product.Product.id).all()) + 1)
-            products.about = product_add_one['Описание']
-            products.cost = product_add_one['Цена']
-            products.category = product_add_one['Категория']
-            products.count = product_add_one['Количество']
-            sessions.add(products)
-            sessions.commit()
-            product_add_one.clear()
+            try:
+                trues = int(ste(form.cost.data))
+                product_add_one['Цена'] = str(form.cost.data)
+                products.name = product_add_one['Название']
+                products.img = product_add_one['Изображение']
+                products.add_to_basket_id = '/add_in_basket/' + \
+                                            str(len(sessions.query(product.Product.id).all()) + 1)
+                products.about = product_add_one['Описание']
+                products.cost = product_add_one['Цена']
+                products.category = product_add_one['Категория']
+                products.count = product_add_one['Количество']
+                sessions.add(products)
+                sessions.commit()
+                product_add_one.clear()
+            except:
+                return render_template('price_product.html', title='Добавление продукта',
+                                       form=form,
+                                       message="Вы ввели некоректно цену")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 

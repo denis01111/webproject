@@ -12,7 +12,7 @@ class Product(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    cost = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    cost = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     category = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     count = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     img = sqlalchemy.Column(sqlalchemy.String, nullable=True)
