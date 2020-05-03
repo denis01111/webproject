@@ -150,11 +150,6 @@ def add_product():
         db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = product.Product()
-        if form.category.data not in arr_category and product_add_one['Категория'] == '':
-            return render_template('add_product.html', title='Добавление продукта',
-                                   form=form,
-                                   message="Такой категории не существует!")
-
         if form.category.data in arr_category:
             product_add_one['Категория'] = form.category.data
             return render_template('name_product.html', form=form)
