@@ -59,8 +59,7 @@
 			<img src={{item.img}}>
 			<p> {{item.name}}</p>
 			<p>{{item.about}}</p>
-			<p>{{item.cost}}</p>
-			<p>{{item.count}}</p>
+			<p>{{item.cost}} X {{item.count}}</p>
 		{% if current_user.is_authenticated and current_user.name != 'admin' %}
 			<a href={{item.add_to_basket_id}} class="btn btn-success">Добавить в корзину</a>
 		{% endif %}
