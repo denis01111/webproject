@@ -17,9 +17,9 @@ from flask import Flask
 
 arr_category = ["Электроника", 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт',
                 'Автотовары']
-product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': ''}
+product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': '',
+                   'Количесвто': ''}
 
-arr_to_basket = {}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -170,15 +170,15 @@ def add_product():
             return render_template('img_product.html', form=form)
 
         if form.img.data and product_add_one['Категория']:
-            a = 'static/img/'
-            profile = request.files['img']
-            image_location = a + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
-            profile.save(image_location)
-            baseheight = 100
+            names = 'static/img/'
+            profiles = request.files['img']
+            image_location = names + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
+            profiles.save(image_location)
+            base_height = 100
             img = Image.open(image_location)
-            hpercent = (baseheight / float(img.size[1]))
-            wsize = int((float(img.size[0]) * float(hpercent)))
-            img = img.resize((wsize, baseheight), PIL.Image.ANTIALIAS)
+            height_cent = (base_height / float(img.size[1]))
+            weight_size = int((float(img.size[0]) * float(height_cent)))
+            img = img.resize((weight_size, base_height), PIL.Image.ANTIALIAS)
             img.save(image_location)
             product_add_one['Изображение'] = image_location
             return render_template('count_product.html', form=form)
@@ -207,6 +207,7 @@ def add_product():
                 products.count = product_add_one['Количество']
                 sessions.add(products)
                 sessions.commit()
+                product_add_one.clear()
             except:
                 return render_template('price_product.html', title='Добавление продукта',
                                        form=form,
