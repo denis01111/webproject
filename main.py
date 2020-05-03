@@ -188,7 +188,7 @@ def add_product():
 
         if form.cost.data:
             try:
-                trues = int(ste(form.cost.data))
+                trues = int(str(form.cost.data))
                 product_add_one['Цена'] = str(form.cost.data)
                 products.name = product_add_one['Название']
                 products.img = product_add_one['Изображение']
