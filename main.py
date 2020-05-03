@@ -187,8 +187,6 @@ def add_product():
                                        message="Вы ввели некоректно колличество!")
 
         if form.cost.data:
-            try:
-                trues = int(str(form.cost.data))
                 product_add_one['Цена'] = str(form.cost.data)
                 products.name = product_add_one['Название']
                 products.img = product_add_one['Изображение']
@@ -201,10 +199,6 @@ def add_product():
                 sessions.add(products)
                 sessions.commit()
                 product_add_one.clear()
-            except:
-                return render_template('price_product.html', title='Добавление продукта',
-                                       form=form,
-                                       message="Вы ввели некоректно цену")
         return redirect('/')
     return render_template('add_product.html', title='Добавление продукта', form=form)
 
