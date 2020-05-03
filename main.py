@@ -154,15 +154,15 @@ def add_product():
             product_add_one['Категория'] = form.category.data
             return render_template('name_product.html', form=form)
 
-        if form.name.data and product_add_one['Категория']:
+        if form.name.data:
             product_add_one['Название'] = form.name.data
             return render_template('about_product.html', form=form)
 
-        if form.about.data and product_add_one['Категория']:
+        if form.about.data:
             product_add_one['Описание'] = form.about.data
             return render_template('img_product.html', form=form)
 
-        if form.img.data and product_add_one['Категория']:
+        if form.img.data:
             names = 'static/img/'
             profiles = request.files['img']
             image_location = names + str(len(sessions.query(product.Product.id).all()) + 1) + '.png'
@@ -176,7 +176,7 @@ def add_product():
             product_add_one['Изображение'] = image_location
             return render_template('count_product.html', form=form)
 
-        if form.count.data and product_add_one['Категория']:
+        if form.count.data:
             try:
                 trues = int(form.count.data)
                 product_add_one['Количество'] = form.count.data
@@ -186,7 +186,7 @@ def add_product():
                                        form=form,
                                        message="Вы ввели некоректные данные!")
 
-        if form.cost.data and product_add_one['Категория']:
+        if form.cost.data:
             try:
                 trues = int(form.cost.data)
                 product_add_one['Цена'] = form.cost.data
