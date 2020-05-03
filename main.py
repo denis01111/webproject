@@ -419,7 +419,7 @@ def arrange():
                 decor.products = result_user.id_product
             decor.address = form.address.data
             if result_user.id_product != None:
-                for id_1 in result_user.id_product.split():
+                for id_1 in str(result_user.id_product).split():
                     pro = sessions.query(product.Product).filter(
                         product.Product.id == id_1).first()
                     if pro:

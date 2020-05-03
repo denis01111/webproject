@@ -21,6 +21,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     count_basket = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     id_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     count_product = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
