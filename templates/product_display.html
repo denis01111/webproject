@@ -57,7 +57,7 @@
 	<li class="product-wrapper">
 		<div class="product">
 			<img src={{item.img}}>
-			<p> {{item.name}}</p>
+			<p> {{item.name}}, {{item.img}}</p>
 			<p>{{item.about}}</p>
 			<p>{{item.cost}} X {{item.count}}</p>
 		{% if current_user.is_authenticated and current_user.name != 'admin' %}

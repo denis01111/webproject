@@ -177,14 +177,9 @@ def add_product():
             return render_template('count_product.html', form=form)
 
         if form.count.data:
-            try:
-                trues = int(form.count.data)
+                trues = int(str(form.count.data))
                 product_add_one['Количество'] = form.count.data
                 return render_template('price_product.html', form=form)
-            except:
-                return render_template('count_product.html', title='Добавление продукта',
-                                       form=form,
-                                       message="Вы ввели некоректно колличество!")
 
         if form.cost.data:
             try:
