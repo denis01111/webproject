@@ -177,12 +177,10 @@ def add_product():
             return render_template('count_product.html', form=form)
 
         if form.count.data:
-            trues = int(str(form.count.data))
             product_add_one['Количество'] = form.count.data
             return render_template('price_product.html', form=form)
 
         if form.cost.data:
-            trues = int(str(form.cost.data))
             product_add_one['Цена'] = form.cost.data
             products.name = product_add_one['Название']
             products.img = product_add_one['Изображение']
