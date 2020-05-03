@@ -20,7 +20,6 @@ arr_category = ["Электроника", 'Дом', 'Книги', 'Мужчин�
 product_add_one = {'Категория': '', 'Название': '', 'Описание': '', 'Изображение': '', 'Цена': '',
                    'Количесвто': ''}
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
@@ -308,12 +307,13 @@ def add_in_basket(post_id):
     result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
     if result_user.id_product == None:
         list_basket_id_product = []
-        list_basket_count_product =[]
+        list_basket_count_product = []
     else:
         list_basket_id_product = str(result_user.id_product).split()
         list_basket_count_product = str(result_user.count_product).split()
     if str(post_id) in list_basket_id_product:
-        list_basket_count_product[list_basket_id_product.index(str(post_id))] = str(int(list_basket_count_product[list_basket_id_product.index(str(post_id))]) + 1)
+        list_basket_count_product[list_basket_id_product.index(str(post_id))] = str(
+            int(list_basket_count_product[list_basket_id_product.index(str(post_id))]) + 1)
         result_user.count_product = ' '.join(list_basket_count_product)
     else:
         list_basket_id_product.append(str(post_id))
@@ -362,7 +362,7 @@ def del_basket(post_id):
     result_user = sessions.query(users.User).filter(users.User.id == current_user.id).first()
     if result_user.id_product == None:
         list_basket_id_product = []
-        list_basket_count_product =[]
+        list_basket_count_product = []
     else:
         list_basket_id_product = str(result_user.id_product).split()
         list_basket_count_product = str(result_user.count_product).split()
@@ -423,9 +423,11 @@ def arrange():
                     pro = sessions.query(product.Product).filter(
                         product.Product.id == id_1).first()
                     if pro:
-                        a = int(pro.count) - int(list_basket_count_product[list_basket_id_product.index(id_1)])
+                        a = int(pro.count) - int(
+                            list_basket_count_product[list_basket_id_product.index(id_1)])
                         if a < 0:
-                            return render_template('orders.html', title='Оформление заказа', form=form,
+                            return render_template('orders.html', title='Оформление заказа',
+                                                   form=form,
                                                    message='Такого колличества {} нет в наличии.'
                                                            ' Уменьшите колличество или выберите'
                                                            ' другой товар'.format(pro.name))
