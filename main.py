@@ -8,7 +8,7 @@ from loginform import LoginForm
 from register import RegisterForm
 from add_product import AddProductForm
 from decoration_orders import Decoration
-from Profile import ProfileForm
+from Proсfile import ProfileForm
 import zipfile
 import os
 from werkzeug.utils import secure_filename
