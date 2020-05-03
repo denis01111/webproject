@@ -14,7 +14,6 @@ from werkzeug.utils import secure_filename
 import PIL
 from PIL import Image
 from flask import Flask
-from flask_ngrok import run_with_ngrok
 
 arr_category = ['Электроника', 'Дом', 'Книги', 'Мужчинам', 'Подарки', 'Зоотовары', 'Спорт',
                 'Автотовары']
@@ -23,7 +22,6 @@ product_add_one = {'Категория': '', 'Название': '', 'Описа
 arr_to_basket = {}
 
 app = Flask(__name__)
-run_with_ngrok(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
