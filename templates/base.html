@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <title>{{ title }}</title>
-    {% if current_user.is_authenticated and current_user.name != 'admin' %}
+    {% if current_user.is_authenticated and current_user.name != 'Администратор' %}
         <ul class="fail">
           <li class="fall"><a href="/">
               <img class='photos' src="static/img/menu.png"> ГЛАВНАЯ</a></li>
