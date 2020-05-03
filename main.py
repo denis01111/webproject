@@ -29,6 +29,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     return sessions.query(users.User).get(user_id)
 
@@ -36,6 +37,7 @@ def load_user(user_id):
 @app.route('/electronics', methods=['GET', 'POST'])
 def electronics():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Электроника')
         return render_template("product_display.html", products=products)
@@ -46,6 +48,7 @@ def electronics():
 @app.route('/health', methods=['GET', 'POST'])
 def health():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Здоровье')
         return render_template("product_display.html", products=products)
@@ -56,6 +59,7 @@ def health():
 @app.route('/men', methods=['GET', 'POST'])
 def men():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Мужчинам')
         return render_template("product_display.html", products=products)
@@ -66,6 +70,7 @@ def men():
 @app.route('/prize', methods=['GET', 'POST'])
 def prize():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Подарки')
         return render_template("product_display.html", products=products)
@@ -76,6 +81,7 @@ def prize():
 @app.route('/cat', methods=['GET', 'POST'])
 def cat():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Зоотовары')
         return render_template("product_display.html", products=products)
@@ -86,6 +92,7 @@ def cat():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Дом')
         return render_template("product_display.html", products=products)
@@ -96,6 +103,7 @@ def home():
 @app.route('/books', methods=['GET', 'POST'])
 def books():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Книги')
         return render_template("product_display.html", products=products)
@@ -106,6 +114,7 @@ def books():
 @app.route('/sport', methods=['GET', 'POST'])
 def sport():
     try:
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = sessions.query(product.Product).filter(product.Product.category == 'Спорт')
         return render_template("product_display.html", products=products)
@@ -115,22 +124,18 @@ def sport():
 
 @app.route('/car', methods=['GET', 'POST'])
 def car():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product).filter(product.Product.category == 'Автотовары')
-        return render_template("product_display.html", products=products)
-    except:
-        return 'There was a problem deleting that task'
+    db_session.global_init('db/blogs.sqlite')
+    sessions = db_session.create_session()
+    products = sessions.query(product.Product).filter(product.Product.category == 'Автотовары')
+    return render_template("product_display.html", products=products)
 
 
 @app.route('/')
 def delete():
-    try:
-        sessions = db_session.create_session()
-        products = sessions.query(product.Product)
-        return render_template("product_display.html", products=products, title='Главная')
-    except:
-        return 'There was a problem deleting that task'
+    db_session.global_init('db/blogs.sqlite')
+    sessions = db_session.create_session()
+    products = sessions.query(product.Product)
+    return render_template("product_display.html", products=products, title='Главная')
 
 
 @app.route('/exit')
@@ -143,6 +148,7 @@ def logout():
 def add_product():
     form = AddProductForm()
     if request.method == 'POST':
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         products = product.Product()
         print(form.category.data)
@@ -211,6 +217,7 @@ def add_product():
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
     return render_template('Profile.html', title='Авторизация', user=user)
@@ -221,6 +228,7 @@ def profile_update():
     form = ProfileForm()
     if request.method == 'POST':
         if form.validate_on_submit():
+            db_session.global_init('db/blogs.sqlite')
             sessions = db_session.create_session()
             user = sessions.query(users.User).filter(users.User.id == current_user.get_id()).first()
             if user.password != form.password.data:
@@ -248,6 +256,7 @@ def profile_update():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        db_session.global_init('db/blogs.sqlite')
         if len(form.password.data) < 8:
             return render_template('register.html', title='Регистрация',
                                    form=form,
@@ -281,6 +290,7 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        db_session.global_init('db/blogs.sqlite')
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.email == form.email.data).first()
         if user and user.password == form.password.data:
@@ -292,6 +302,7 @@ def login():
 
 @app.route('/add_in_basket/<int:post_id>', methods=['GET', 'POST'])
 def add_in_basket(post_id):
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
     print(post_id)
@@ -326,6 +337,7 @@ def cookie_test():
 
 @app.route('/del_basket/<int:post_id>', methods=['GET', 'POST'])
 def del_basket(post_id):
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
     arr_to_basket[post_id][1] -= 1
@@ -341,8 +353,10 @@ def session_test():
     session['visits_count'] = session.get('visits_count', 0) + 1
     return f"Вы зашли на страницу {session['visits_count']} раз!"
 
+
 @app.route('/del_product_admin/<int:post_id>', methods=['GET', 'POST'])
 def del_product_admin(post_id):
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     result_product = sessions.query(product.Product).filter(product.Product.id == post_id).first()
     if result_product:
@@ -353,12 +367,12 @@ def del_product_admin(post_id):
     return redirect('/')
 
 
-
 @app.route('/arrange', methods=['GET', 'POST'])
 def arrange():
     form = Decoration()
     if form.validate_on_submit():
         if request.method == 'POST':
+            db_session.global_init('db/blogs.sqlite')
             sessions = db_session.create_session()
             decor = order.Order()
             decor.name = form.name.data
@@ -369,7 +383,8 @@ def arrange():
             decor.address = form.address.data
             print(arr_to_basket.values())
             for id_1 in arr_to_basket.values():
-                pro = sessions.query(product.Product).filter(product.Product.id == id_1[0].id).first()
+                pro = sessions.query(product.Product).filter(
+                    product.Product.id == id_1[0].id).first()
                 if pro:
                     print(int(pro.count), id_1[1], pro.name, pro.id)
                     a = int(pro.count) - id_1[1]
@@ -397,6 +412,7 @@ def about_our():
 
 @app.route('/error_login_in')
 def error_login_in():
+    db_session.global_init('db/blogs.sqlite')
     sessions = db_session.create_session()
     products = sessions.query(product.Product)
     return render_template('product_display.html', message='Вы не авторизованы!', products=products)
@@ -405,9 +421,6 @@ def error_login_in():
 def main():
     db_session.global_init('db/blogs.sqlite')
     app.run()
-
-
-
 
 
 if __name__ == '__main__':
